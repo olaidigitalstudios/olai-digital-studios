@@ -23,9 +23,9 @@ const schemaGraph = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://olaidigitalstudios.github.io/#organization",
+      "@id": "https://olaidigitalstudios.netlify.app/#organization",
       "name": "Olai Digital Studios",
-      "url": "https://olaidigitalstudios.github.io",
+      "url": "https://olaidigitalstudios.netlify.app",
       "logo": new URL('/apple-touch-icon.png', Astro.site).toString(),
       "description": "Independent game development studio based in Chennai, Tamil Nadu, India, crafting player-first mobile & arcade games.",
       "address": {
@@ -43,7 +43,7 @@ const schemaGraph = {
     ...allGames.map((game) => {
       const playStore = game.data.storeLinks?.find((l) => l.platform === 'google-play' && l.url);
       const itch = game.data.storeLinks?.find((l) => l.platform === 'itch' && l.url);
-      const primaryUrl = playStore?.url || itch?.url || `https://olaidigitalstudios.github.io/#${game.id}`;
+      const primaryUrl = playStore?.url || itch?.url || `https://olaidigitalstudios.netlify.app/#${game.id}`;
 
       return {
         "@type": "VideoGame",
@@ -53,10 +53,10 @@ const schemaGraph = {
         "operatingSystem": "Android",
         "applicationCategory": "GameApplication",
         "author": {
-          "@id": "https://olaidigitalstudios.github.io/#organization"
+          "@id": "https://olaidigitalstudios.netlify.app/#organization"
         },
         "publisher": {
-          "@id": "https://olaidigitalstudios.github.io/#organization"
+          "@id": "https://olaidigitalstudios.netlify.app/#organization"
         },
         "url": primaryUrl,
         "offers": {
@@ -77,6 +77,16 @@ const schemaGraph = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0C0D0E" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCEE9EZ1X0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-QCEE9EZ1X0');
+    </script>
 
     <!-- Primary SEO -->
     <title>{title}</title>

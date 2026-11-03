@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://olaidigitalstudios.github.io',
+  site: 'https://olaidigitalstudios.netlify.app',
   base: '/',
   trailingSlash: 'never',
   integrations: [
