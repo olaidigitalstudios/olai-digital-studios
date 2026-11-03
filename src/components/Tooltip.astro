@@ -8,7 +8,7 @@
   role="tooltip"
   aria-hidden="true"
   data-show="false"
-  data-placement="top"
+  data-placement="bottom"
 >
   <div class="tooltip-bubble relative px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-sans font-medium text-stone-200 bg-[#141518]/95 backdrop-blur-md border border-accent-gold/25 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.8),0_0_12px_rgba(229,184,105,0.12)] whitespace-nowrap">
     <!-- Top specular hairline -->
@@ -28,7 +28,7 @@
   /* 
     Architecture:
     #app-tooltip handles geometry (top, left) with no transform interference.
-    .tooltip-bubble handles visual entrance (opacity, scale, translateY).
+    .tooltip-bubble handles visual entrance (opacity, scale).
   */
   .app-tooltip {
     will-change: top, left;
@@ -44,7 +44,7 @@
   .tooltip-bubble {
     will-change: opacity, transform;
     opacity: 0;
-    transform: translateY(3px) scale(0.96);
+    transform: scale(0.96);
     transition:
       opacity var(--duration-micro, 80ms) ease-out,
       transform var(--duration-micro, 80ms) ease-out;
@@ -56,28 +56,28 @@
 
   .app-tooltip[data-show="true"] .tooltip-bubble {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
     transition:
       opacity var(--duration-quick, 150ms) cubic-bezier(0.22, 1, 0.36, 1),
       transform var(--duration-quick, 150ms) cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Placement: Top (default) */
-  .app-tooltip[data-placement="top"] .tooltip-arrow {
-    bottom: -4px;
-    left: var(--arrow-left, 50%);
-    margin-left: -4px;
-    border-right: 1px solid rgba(229, 184, 105, 0.25);
-    border-bottom: 1px solid rgba(229, 184, 105, 0.25);
-  }
-
-  /* Placement: Bottom (flipped) */
+  /* Placement: Bottom (default — arrow points UP toward trigger) */
   .app-tooltip[data-placement="bottom"] .tooltip-arrow {
     top: -4px;
     left: var(--arrow-left, 50%);
     margin-left: -4px;
     border-left: 1px solid rgba(229, 184, 105, 0.25);
     border-top: 1px solid rgba(229, 184, 105, 0.25);
+  }
+
+  /* Placement: Top (arrow points DOWN toward trigger) */
+  .app-tooltip[data-placement="top"] .tooltip-arrow {
+    bottom: -4px;
+    left: var(--arrow-left, 50%);
+    margin-left: -4px;
+    border-right: 1px solid rgba(229, 184, 105, 0.25);
+    border-bottom: 1px solid rgba(229, 184, 105, 0.25);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -132,16 +132,29 @@
       var bubbleHeight = bubble ? bubble.offsetHeight : tooltip.offsetHeight;
 
       var viewportWidth = window.innerWidth;
+      var viewportHeight = window.innerHeight;
       var PADDING = 12;
-      var OFFSET = 10; // Spacing between trigger and tooltip bubble
+      var OFFSET = 8; // Clean spacing between trigger and tooltip bubble
 
-      var placement = 'top';
-      var top = triggerRect.top - bubbleHeight - OFFSET;
+      // Support explicit per-element placement, defaulting to 'bottom'
+      var preferred = trigger.getAttribute('data-tooltip-placement') || 'bottom';
+      var placement = preferred;
+      var top;
 
-      // Vertical collision: flip to bottom if too close to viewport top (< 12px)
-      if (top < PADDING) {
-        placement = 'bottom';
+      if (preferred === 'bottom') {
         top = triggerRect.bottom + OFFSET;
+        // Collision flip: if too tight at bottom of viewport, flip to top
+        if (top + bubbleHeight > viewportHeight - PADDING) {
+          placement = 'top';
+          top = triggerRect.top - bubbleHeight - OFFSET;
+        }
+      } else {
+        top = triggerRect.top - bubbleHeight - OFFSET;
+        // Collision flip: if too tight at top of viewport, flip to bottom
+        if (top < PADDING) {
+          placement = 'bottom';
+          top = triggerRect.bottom + OFFSET;
+        }
       }
 
       // Horizontal centering over the trigger

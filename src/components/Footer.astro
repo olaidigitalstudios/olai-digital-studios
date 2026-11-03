@@ -49,6 +49,7 @@ const currentYear = new Date().getFullYear();
             href={`mailto:${contactEmail}`}
             class="text-sm text-stone-200 hover:text-accent-gold active:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded"
             data-tooltip="Send an email"
+            data-tooltip-placement="bottom"
             aria-label={`Send email to ${contactEmail}`}
           >
             {contactEmail}
@@ -58,6 +59,7 @@ const currentYear = new Date().getFullYear();
             id="copy-email-btn"
             class="text-xs font-medium text-stone-400 hover:text-accent-gold active:scale-95 transition-[color,transform] duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded px-1.5 py-0.5"
             data-tooltip="Copy to clipboard"
+            data-tooltip-placement="bottom"
             aria-label="Copy email address to clipboard"
           >
             <span id="copy-label" class="t-morph">Copy</span>
@@ -77,6 +79,7 @@ const currentYear = new Date().getFullYear();
         href="/privacy"
         class="text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
         data-tooltip="View legal privacy policy"
+        data-tooltip-placement="top"
       >
         Privacy Policy
       </a>
