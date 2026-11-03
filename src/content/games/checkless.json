@@ -1,0 +1,33 @@
+{
+  "title": "Checkless",
+  "tagline": "Solve chess-inspired puzzles on a rotating cylindrical board.",
+  "genre": "Puzzle",
+  "status": "In Development",
+  "coverImage": "../../assets/images/games/checkless.png",
+  "coverAlt": "Checkless key art showing jade chess pieces on rotating cylindrical puzzle board",
+  "featuredOrder": 7,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.olaidigitalstudios.checkless",
+      "primary": false
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Microsoft Store",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "itch.io",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "url": "https://checkless.netlify.app/",
+      "primary": false
+    }
+  ]
+}

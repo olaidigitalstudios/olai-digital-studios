@@ -1,0 +1,350 @@
+---
+// Hero.astro — Full-viewport minimalist landing screen
+const location = 'Chennai, Tamil Nadu, India';
+---
+
+<section
+  id="top"
+  class="relative min-h-screen flex flex-col items-center justify-between text-center px-4 py-12 sm:py-16 overflow-hidden"
+>
+  <!-- Ambient Micro-Constellation Canvas (Floating Nodes & Sacred Geometry) -->
+  <canvas
+    id="hero-constellation"
+    class="pointer-events-none absolute inset-0 w-full h-full z-0 select-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Ambient Breathing Backdrop (Cinematic Studio Lighting) -->
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0 select-none" aria-hidden="true">
+    <div class="hero-ambient-glow"></div>
+  </div>
+
+  <!-- Top spacer for optical balance -->
+  <div class="w-full h-8 sm:h-12" aria-hidden="true"></div>
+
+  <!-- Center Brand Stack -->
+  <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center my-auto">
+    
+    <!-- Studio Logo Box (Adapted from Studio Screen Visual Spec) -->
+    <div class="flex flex-col items-center text-center">
+      <h1
+        class="hero-title font-brand font-normal text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-stone-100 uppercase leading-[0.95] select-none"
+        style="letter-spacing: 0.12em; margin-right: -0.12em; text-shadow: 0 4px 25px rgba(255, 255, 255, 0.08);"
+      >
+        OLAI
+      </h1>
+      <p
+        class="hero-subtitle font-brand font-normal text-lg sm:text-2xl md:text-3xl lg:text-4xl text-stone-300 uppercase leading-none mt-2 sm:mt-3 select-none"
+        style="letter-spacing: 0.10em; margin-right: -0.10em;"
+      >
+        DIGITAL STUDIOS
+      </p>
+
+      <!-- Studio Location Badge -->
+      <div class="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-sans font-medium text-stone-300 bg-white/[0.04] border border-white/10 backdrop-blur-sm mt-8 sm:mt-10">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" aria-hidden="true"></span>
+        <span class="text-accent-gold font-medium">Based in {location}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Scroll Cue -->
+  <div class="hero-scroll relative z-10 flex flex-col items-center justify-center text-center">
+    <a
+      href="#games"
+      class="inline-flex flex-col items-center justify-center gap-2 text-stone-400 hover:text-accent-gold active:scale-95 transition-[color,transform] duration-quick ease-smooth-out group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded px-3 py-1.5"
+      aria-label="Scroll to games catalog"
+    >
+      <span
+        class="text-[11px] font-sans font-medium uppercase text-stone-400 group-hover:text-accent-gold transition-colors duration-quick ease-smooth-out select-none"
+        style="letter-spacing: 0.2em; margin-right: -0.2em;"
+      >
+        Scroll to Explore
+      </span>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="animate-bounce"
+        aria-hidden="true"
+      >
+        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  @keyframes ambientBreathe {
+    0%, 100% {
+      transform: scale(0.92);
+      opacity: 0.65;
+      filter: blur(60px);
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 1;
+      filter: blur(80px);
+    }
+  }
+
+  .hero-ambient-glow {
+    width: min(90vw, 980px);
+    height: min(60vh, 560px);
+    border-radius: 9999px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(229, 184, 105, 0.08) 0%,
+      rgba(224, 122, 95, 0.035) 45%,
+      rgba(12, 13, 14, 0) 72%
+    );
+    will-change: transform, opacity;
+    animation: ambientBreathe 11s ease-in-out infinite;
+  }
+
+  @keyframes heroReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes heroFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-title {
+    animation: heroReveal 550ms var(--ease-smooth-out) 0ms both;
+  }
+
+  .hero-subtitle {
+    animation: heroReveal 500ms var(--ease-smooth-out) 140ms both;
+  }
+
+  .hero-badge {
+    animation: heroFadeIn 450ms var(--ease-smooth-out) 280ms both;
+  }
+
+  .hero-scroll {
+    animation: heroFadeIn 450ms var(--ease-smooth-out) 450ms both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title,
+    .hero-subtitle,
+    .hero-badge,
+    .hero-scroll,
+    .hero-ambient-glow {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+    .hero-ambient-glow {
+      opacity: 0.8 !important;
+      filter: blur(70px) !important;
+    }
+  }
+</style>
+
+<!-- Ambient Micro-Constellation Engine (Floating Nodes & Sacred Geometry) -->
+<script is:inline>
+  (function () {
+    var canvas = document.getElementById('hero-constellation');
+    var section = document.getElementById('top');
+    if (!canvas || !section) return;
+
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var width = 0;
+    var height = 0;
+    var dpr = 1;
+    var nodes = [];
+    var maxDistance = 110;
+    var isVisible = true;
+    var mouse = { x: -9999, y: -9999, active: false };
+    var animationFrameId = null;
+
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize() {
+      if (!canvas || !section) return;
+      var rect = section.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.scale(dpr, dpr);
+
+      // Re-seed nodes calibrated to screen size (20 on small screens, up to 34 on desktop)
+      var targetCount = Math.floor(Math.min(Math.max(width / 42, 18), 34));
+      if (nodes.length !== targetCount) {
+        initNodes(targetCount);
+      }
+    }
+
+    function initNodes(count) {
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        var angle = Math.random() * Math.PI * 2;
+        var speed = 0.15 + Math.random() * 0.22; // very gentle drift
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          radius: 1.0 + Math.random() * 0.8,
+          alpha: 0.25 + Math.random() * 0.35
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      var len = nodes.length;
+
+      // 1. Draw connections
+      for (var i = 0; i < len; i++) {
+        var p1 = nodes[i];
+        for (var j = i + 1; j < len; j++) {
+          var p2 = nodes[j];
+          var dx = p1.x - p2.x;
+          var dy = p1.y - p2.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDistance) {
+            var lineAlpha = (1 - dist / maxDistance) * 0.09;
+            ctx.strokeStyle = 'rgba(229, 184, 105, ' + lineAlpha + ')';
+            ctx.lineWidth = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 2. Update and draw nodes
+      for (var k = 0; k < len; k++) {
+        var p = nodes[k];
+
+        if (!prefersReducedMotion) {
+          // Soft mouse repulsion
+          if (mouse.active) {
+            var mdx = p.x - mouse.x;
+            var mdy = p.y - mouse.y;
+            var mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+            var repelRadius = 130;
+
+            if (mdist < repelRadius && mdist > 0) {
+              var force = ((repelRadius - mdist) / repelRadius) * 0.6;
+              p.x += (mdx / mdist) * force;
+              p.y += (mdy / mdist) * force;
+            }
+          }
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Wrap edges with 20px padding for smooth traversal
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+        }
+
+        ctx.fillStyle = 'rgba(229, 184, 105, ' + p.alpha + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function tick() {
+      if (!isVisible) return;
+      draw();
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    }
+
+    // Mouse tracker
+    window.addEventListener(
+      'pointermove',
+      function (e) {
+        var rect = section.getBoundingClientRect();
+        if (
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom &&
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right
+        ) {
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+          mouse.active = true;
+        } else {
+          mouse.active = false;
+        }
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      'pointerleave',
+      function () {
+        mouse.active = false;
+        mouse.x = -9999;
+        mouse.y = -9999;
+      },
+      { passive: true }
+    );
+
+    // Pause animation when hero is scrolled out of viewport
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          var entry = entries[0];
+          isVisible = entry.isIntersecting;
+          if (isVisible && !prefersReducedMotion) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = requestAnimationFrame(tick);
+          }
+        },
+        { threshold: 0 }
+      );
+      observer.observe(section);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Initialize
+    resize();
+    tick();
+  })();
+</script>

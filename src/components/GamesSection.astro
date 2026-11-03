@@ -1,0 +1,108 @@
+---
+// GamesSection.astro — Fetches all game entries and renders the showcase grid
+import { getCollection } from 'astro:content';
+import GameCard from './GameCard.astro';
+
+const allGames = await getCollection('games');
+const sortedGames = allGames.sort(
+  (a, b) => (a.data.featuredOrder ?? 99) - (b.data.featuredOrder ?? 99)
+);
+---
+
+<section id="games" class="py-20 sm:py-24 px-4">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Section Header -->
+    <div class="mb-12 sm:mb-16">
+      <h2 class="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
+        Our Games
+      </h2>
+      <div id="games-accent-line" class="mt-3 w-12 h-0.5 bg-accent-gold rounded-full origin-left transition-transform duration-slow ease-smooth-out scale-x-0" aria-hidden="true"></div>
+    </div>
+
+    <!-- Games Grid -->
+    {sortedGames.length > 0 ? (
+      <ul
+        id="games-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch"
+        role="list"
+        aria-label="Game catalog"
+      >
+        {sortedGames.map((game, index) => (
+          <li
+            class="catalog-card-item flex flex-col h-full"
+            style={`--card-stagger: ${index};`}
+          >
+            <GameCard game={game} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="text-gray-500 text-center py-20">
+        Games coming soon. Stay tuned!
+      </p>
+    )}
+
+  </div>
+</section>
+
+<style>
+  .catalog-card-item {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 500ms var(--ease-smooth-out), transform 500ms var(--ease-smooth-out);
+    transition-delay: calc(var(--card-stagger) * 60ms);
+    will-change: opacity, transform;
+  }
+
+  /* When section is revealed upon scrolling */
+  :global(#games.catalog-revealed) #games-accent-line {
+    transform: scaleX(1) !important;
+  }
+
+  :global(#games.catalog-revealed) .catalog-card-item {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #games-accent-line {
+      transform: scaleX(1) !important;
+      transition: none !important;
+    }
+    .catalog-card-item {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var section = document.getElementById('games');
+    if (!section) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      section.classList.add('catalog-revealed');
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      section.classList.add('catalog-revealed');
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        if (entries[0].isIntersecting) {
+          section.classList.add('catalog-revealed');
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '0px 0px -40px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(section);
+  })();
+</script>

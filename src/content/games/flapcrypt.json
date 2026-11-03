@@ -1,0 +1,31 @@
+{
+  "title": "Flapcrypt",
+  "tagline": "Rotate tactile split-flap boards to crack cryptic quotes and word puzzles.",
+  "genre": "Word Puzzle",
+  "status": "In Development",
+  "coverImage": "../../assets/images/games/flapcrypt.png",
+  "coverAlt": "Flapcrypt key art showing mechanical split-flap quote puzzles and vintage railway departure board aesthetic",
+  "featuredOrder": 6,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Google Play",
+      "primary": false
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Microsoft Store",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "itch.io",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "primary": false
+    }
+  ]
+}

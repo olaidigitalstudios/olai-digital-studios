@@ -1,0 +1,23 @@
+{
+  "title": "Node Attack",
+  "tagline": "Command a living network, sever enemy links, and conquer a 50-level cosmic strategy campaign.",
+  "genre": "Strategy",
+  "status": "Available Now",
+  "coverImage": "../../assets/images/games/node-attack.png",
+  "coverAlt": "Node Attack key art showing living network nodes and cosmic tactical warfare",
+  "featuredOrder": 2,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Get it on Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.olaidigitalstudios.nodeattack",
+      "primary": true
+    },
+    {
+      "platform": "itch",
+      "label": "Get it on itch.io",
+      "url": "https://olaidigitalstudios.itch.io/node-attack",
+      "primary": false
+    }
+  ]
+}

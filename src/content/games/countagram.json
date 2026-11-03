@@ -1,0 +1,35 @@
+{
+  "title": "Countagram",
+  "tagline": "Crack the letter counts. Uncover every anagram.",
+  "genre": "Word Puzzle",
+  "status": "Available Now",
+  "coverImage": "../../assets/images/games/countagram.jpg",
+  "coverAlt": "Countagram key art showing letter frequency puzzles and word anagrams",
+  "featuredOrder": 4,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Get on Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.olaidigitalstudios.countagram",
+      "primary": true
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Get it from Microsoft Store",
+      "url": "https://apps.microsoft.com/detail/9mvz4fhkbml5",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "Play on itch.io",
+      "url": "https://olaidigitalstudios.itch.io/countagram",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "url": "https://countagram.netlify.app/",
+      "primary": false
+    }
+  ]
+}

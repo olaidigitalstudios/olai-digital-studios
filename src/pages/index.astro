@@ -1,0 +1,18 @@
+---
+// index.astro — Single-page composition with full-viewport studio landing
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import GamesSection from '@components/GamesSection.astro';
+import Footer from '@components/Footer.astro';
+---
+
+<BaseLayout
+  title="OLAI Digital Studios | Independent Game Development Studio"
+  description="OLAI Digital Studios is an independent game development studio based in Chennai, Tamil Nadu, India, crafting player-first mobile & arcade games."
+>
+  <main>
+    <Hero />
+    <GamesSection />
+  </main>
+  <Footer />
+</BaseLayout>

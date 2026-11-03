@@ -1,0 +1,31 @@
+{
+  "title": "Rotatle",
+  "tagline": "Rotate the board, guide falling letters, and solve clever word puzzles.",
+  "genre": "Word Puzzle",
+  "status": "In Development",
+  "coverImage": "../../assets/images/games/rotatle.png",
+  "coverAlt": "Rotatle key art showing rotating letter board mechanics and falling gravity puzzles",
+  "featuredOrder": 5,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Google Play",
+      "primary": false
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Microsoft Store",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "itch.io",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "primary": false
+    }
+  ]
+}

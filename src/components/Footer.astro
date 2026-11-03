@@ -1,0 +1,188 @@
+---
+// Footer.astro — Studio footer with brand mark and Text Morph email copy
+const contactEmail = 'olaidigitalstudios@gmail.com';
+const currentYear = new Date().getFullYear();
+---
+
+<footer id="contact" class="border-t border-white/5 pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto flex flex-col gap-12">
+
+    <!-- Main Content Row: Split Brand & Inquiries -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+      <!-- Left Column: Studio Identity & Provenance -->
+      <div class="flex flex-col items-start gap-4">
+        <div>
+          <div
+            class="font-brand font-normal text-3xl sm:text-4xl text-stone-100 uppercase leading-none select-none"
+            style="letter-spacing: 0.12em; margin-right: -0.12em;"
+          >
+            OLAI
+          </div>
+          <div
+            class="font-brand font-normal text-xs sm:text-sm text-stone-400 uppercase leading-none mt-1.5 select-none"
+            style="letter-spacing: 0.16em; margin-right: -0.16em;"
+          >
+            DIGITAL STUDIOS
+          </div>
+        </div>
+
+        <p class="text-sm text-stone-400 max-w-sm leading-relaxed mt-1">
+          Independent game development studio based in Chennai, Tamil Nadu, India.
+        </p>
+      </div>
+
+      <!-- Right Column: Direct Inquiries & Email Widget -->
+      <div class="flex flex-col items-start md:items-end gap-4 text-left md:text-right">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-accent-gold mb-1.5">
+            Get in Touch
+          </p>
+          <p class="text-sm text-stone-400 max-w-sm">
+            For inquiries, partnerships, or feedback, drop us a line.
+          </p>
+        </div>
+
+        <!-- Email Copy Widget -->
+        <div class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-elevated border border-white/10 hover:border-accent-gold/30 transition-colors">
+          <a
+            href={`mailto:${contactEmail}`}
+            class="text-sm text-stone-200 hover:text-accent-gold active:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded"
+            aria-label={`Send email to ${contactEmail}`}
+          >
+            {contactEmail}
+          </a>
+          <div class="w-px h-4 bg-white/10 mx-1" aria-hidden="true"></div>
+          <button
+            id="copy-email-btn"
+            class="text-xs font-medium text-stone-400 hover:text-accent-gold active:scale-95 transition-[color,transform] duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded px-1.5 py-0.5"
+            aria-label="Copy email address to clipboard"
+          >
+            <span id="copy-label" class="t-morph">Copy</span>
+          </button>
+        </div>
+
+        <!-- Feedback (sr-only live region for accessibility) -->
+        <p id="copy-feedback" class="sr-only" aria-live="polite"></p>
+      </div>
+
+    </div>
+
+    <!-- Bottom Sub-Footer Bar -->
+    <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500 font-sans">
+      <p>&copy; {currentYear} Olai Digital Studios. All rights reserved.</p>
+      <a
+        href="/privacy"
+        class="text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
+      >
+        Privacy Policy
+      </a>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Email Copy Micro-Script with Text Morph (transitions-dev 33-text-morph) -->
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('copy-email-btn');
+    var label = document.getElementById('copy-label');
+    var feedback = document.getElementById('copy-feedback');
+    var email = 'olaidigitalstudios@gmail.com';
+    var resetTimeout;
+
+    if (!btn || !label) return;
+
+    // Text Morph implementation from transitions.dev
+    function morphText(el, next) {
+      var prev = el.dataset.text || el.textContent;
+      if (prev === next) return;
+      el.dataset.text = next;
+      clearTimeout(el._morphTimer);
+
+      // Check if user prefers reduced motion
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        el.textContent = next;
+        return;
+      }
+
+      var a = 0;
+      while (a < prev.length && a < next.length && prev[a] === next[a]) a++;
+      var b = 0;
+      while (
+        b < prev.length - a &&
+        b < next.length - a &&
+        prev[prev.length - 1 - b] === next[next.length - 1 - b]
+      ) b++;
+
+      var start = prev.slice(0, a);
+      var oldMid = prev.slice(a, prev.length - b);
+      var newMid = next.slice(a, next.length - b);
+      var end = prev.slice(prev.length - b);
+
+      el.innerHTML =
+        start +
+        '<span class="t-morph-swap">' +
+        '<span class="t-morph-old">' + oldMid + '</span>' +
+        '<span class="t-morph-new">' + newMid + '</span>' +
+        '</span>' +
+        end;
+
+      var swap = el.querySelector('.t-morph-swap');
+      var oldEl = el.querySelector('.t-morph-old');
+      var newEl = el.querySelector('.t-morph-new');
+
+      if (!swap || !oldEl || !newEl) {
+        el.textContent = next;
+        return;
+      }
+
+      swap.style.width = oldEl.offsetWidth + 'px';
+      void swap.offsetWidth; // Force reflow
+
+      swap.classList.add('is-morphing');
+      swap.style.width = newEl.offsetWidth + 'px';
+
+      el._morphTimer = setTimeout(function () {
+        el.textContent = next;
+      }, 260);
+    }
+
+    btn.addEventListener('click', function () {
+      clearTimeout(resetTimeout);
+
+      var doCopy = function () {
+        morphText(label, 'Copied!');
+        btn.classList.add('text-accent-gold');
+        if (feedback) feedback.textContent = 'Email address copied to clipboard.';
+
+        resetTimeout = setTimeout(function () {
+          morphText(label, 'Copy');
+          btn.classList.remove('text-accent-gold');
+          if (feedback) feedback.textContent = '';
+        }, 2500);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(doCopy).catch(function () {
+          fallbackCopy();
+        });
+      } else {
+        fallbackCopy();
+      }
+
+      function fallbackCopy() {
+        var ta = document.createElement('textarea');
+        ta.value = email;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try { document.execCommand('copy'); doCopy(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  })();
+</script>

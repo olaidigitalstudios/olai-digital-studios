@@ -1,0 +1,29 @@
+{
+  "title": "Zen Fourier",
+  "tagline": "Tune harmonic signals to restore lost shapes and uncover the memories of a vanished civilization.",
+  "genre": "Puzzle",
+  "status": "Available Now",
+  "coverImage": "../../assets/images/games/zen-fourier.jpg",
+  "coverAlt": "Zen Fourier key art showing harmonic signal waves and sacred geometry",
+  "featuredOrder": 1,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Get on Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.olaidigitalstudios.zenfourier",
+      "primary": true
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Get it from Microsoft Store",
+      "url": "https://apps.microsoft.com/detail/9ng72fqgrb54?hl=en-US&gl=IN",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "Play on itch.io",
+      "url": "https://olaidigitalstudios.itch.io/zen-fourier",
+      "primary": false
+    }
+  ]
+}

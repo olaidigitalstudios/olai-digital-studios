@@ -1,0 +1,176 @@
+---
+// privacy.astro — Privacy policy compliant with Google Play Store & Google AdMob requirements
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const lastUpdated = 'November 2, 2026';
+const contactEmail = 'olaidigitalstudios@gmail.com';
+const currentYear = new Date().getFullYear();
+---
+
+<BaseLayout
+  title="Privacy Policy | OLAI Digital Studios"
+  description="Privacy policy and advertising data practices for Olai Digital Studios and its mobile applications."
+>
+  <main class="min-h-screen pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Navigation Back to Home -->
+      <div class="mb-10">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-xs font-sans uppercase tracking-widest text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1 px-2 -ml-2"
+          aria-label="Back to studio home"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span>Back to Studio</span>
+        </a>
+      </div>
+
+      <!-- Header Block -->
+      <header class="mb-12 border-b border-white/10 pb-8">
+        <h1 class="font-brand font-normal text-4xl sm:text-5xl text-white tracking-wide uppercase leading-tight mb-4">
+          Privacy Policy
+        </h1>
+        <p class="text-xs sm:text-sm font-sans text-stone-400">
+          Last Updated: <span class="text-accent-gold">{lastUpdated}</span> • Olai Digital Studios (Chennai, India)
+        </p>
+      </header>
+
+      <!-- Content Sections -->
+      <article class="space-y-10 text-stone-300 font-sans text-sm sm:text-base leading-relaxed">
+
+        <!-- 1. Overview -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            1. Overview
+          </h2>
+          <p>
+            OLAI Digital Studios (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) is an independent game development studio based in Chennai, Tamil Nadu, India. We are committed to player privacy and transparent data stewardship.
+          </p>
+          <p>
+            This Privacy Policy explains how data is handled across our website (<code class="text-xs px-1.5 py-0.5 rounded bg-surface-elevated text-stone-300 border border-white/10">olaidigitalstudios.github.io</code>) and our published mobile games on Google Play.
+          </p>
+        </section>
+
+        <!-- 2. Information Collection -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            2. Information We Do Not Collect
+          </h2>
+          <p>
+            We do not require account registration, login credentials, or personally identifiable information (such as your real name, home address, personal phone number, or payment card details) to play our mobile titles.
+          </p>
+          <p>
+            Gameplay progression, puzzle configurations, and local settings are stored locally on your device using standard sandbox storage.
+          </p>
+        </section>
+
+        <!-- 3. Third-Party Services & AdMob -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            3. Advertising &amp; Third-Party Services
+          </h2>
+          <p>
+            To provide our mobile games free of charge and sustain independent development, our games integrate <strong>Google AdMob</strong>, an advertising service provided by Google LLC.
+          </p>
+          <p>
+            Google AdMob may collect and process pseudonymous device-level identifiers to serve advertisements. Such information may include:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-400">
+            <li>Google Advertising ID (GAID / AAID)</li>
+            <li>Approximate device location / IP address</li>
+            <li>Device model, operating system version, and system language</li>
+            <li>Diagnostic, crash data, and ad interaction metrics</li>
+          </ul>
+          <p class="pt-2">
+            For further details on how Google processes and safeguards advertising data, please review:
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 pt-1">
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-xs text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
+            >
+              Google Privacy &amp; Terms &nearr;
+            </a>
+            <a
+              href="https://support.google.com/admob/answer/6128543"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-xs text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
+            >
+              How AdMob Uses Information &nearr;
+            </a>
+          </div>
+        </section>
+
+        <!-- 4. Managing Ad Preferences -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            4. Managing Ad Preferences &amp; Opting Out
+          </h2>
+          <p>
+            Players have full control over personalized advertising directly through Android device settings. You can reset your advertising ID or opt out of personalized ads at any time:
+          </p>
+          <div class="p-4 rounded-xl bg-surface-elevated border border-white/10 text-xs sm:text-sm text-stone-300 font-mono">
+            Settings &rarr; Google &rarr; Ads &rarr; Reset or Delete advertising ID
+          </div>
+        </section>
+
+        <!-- 5. Children's Privacy -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            5. Children&rsquo;s Privacy (COPPA Compliance)
+          </h2>
+          <p>
+            Our games are created for general audiences and do not knowingly collect personal data from children under 13 (or under 16 where applicable by local law). If you are a parent or guardian and believe that personal data has inadvertently been collected, please contact us immediately so we can promptly resolve it.
+          </p>
+        </section>
+
+        <!-- 6. Policy Updates -->
+        <section class="space-y-3">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            6. Policy Updates
+          </h2>
+          <p>
+            We may occasionally update this Privacy Policy to reflect app updates, regulatory revisions, or service adjustments. Any updates will be published directly to this URL with an updated revision date.
+          </p>
+        </section>
+
+        <!-- 7. Contact Us -->
+        <section class="space-y-3 pt-4 border-t border-white/10">
+          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+            7. Contact Us
+          </h2>
+          <p>
+            If you have questions, feedback, or inquiries regarding this Privacy Policy, please reach out to us at:
+          </p>
+          <p>
+            <a
+              href={`mailto:${contactEmail}`}
+              class="inline-block text-accent-gold font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded"
+            >
+              {contactEmail}
+            </a>
+          </p>
+        </section>
+
+      </article>
+
+      <!-- Quiet Legal Bottom Bar (No duplicate home footer) -->
+      <footer class="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-sans">
+        <p>&copy; {currentYear} Olai Digital Studios. All rights reserved.</p>
+        <a
+          href="/"
+          class="text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
+        >
+          &larr; Return to Studio Home
+        </a>
+      </footer>
+
+    </div>
+  </main>
+</BaseLayout>
