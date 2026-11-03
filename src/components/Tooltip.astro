@@ -1,0 +1,201 @@
+---
+// Tooltip.astro — Global Singleton Floating Tooltip
+---
+
+<div
+  id="app-tooltip"
+  class="app-tooltip fixed top-0 left-0 z-[9999] pointer-events-none select-none opacity-0 invisible"
+  role="tooltip"
+  aria-hidden="true"
+  data-show="false"
+  data-placement="top"
+>
+  <div class="tooltip-bubble relative px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-sans font-medium text-stone-200 bg-[#141518]/95 backdrop-blur-md border border-accent-gold/25 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.8),0_0_12px_rgba(229,184,105,0.12)] whitespace-nowrap">
+    <!-- Top specular hairline -->
+    <div
+      class="absolute inset-x-2 top-0 h-[1px] bg-gradient-to-r from-transparent via-accent-gold/40 to-transparent pointer-events-none"
+      aria-hidden="true"
+    ></div>
+
+    <span id="app-tooltip-text" class="relative z-10 tracking-wide"></span>
+
+    <!-- Directional Arrow Caret -->
+    <div id="app-tooltip-arrow" class="tooltip-arrow absolute w-2 h-2 bg-[#141518] rotate-45 pointer-events-none" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  .app-tooltip {
+    will-change: transform, opacity, top, left;
+    transform: translateY(3px) scale(0.96);
+    transition:
+      opacity var(--duration-micro, 80ms) var(--ease-smooth-out, ease-out),
+      transform var(--duration-micro, 80ms) var(--ease-smooth-out, ease-out),
+      top var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      left var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s var(--duration-micro, 80ms);
+  }
+
+  .app-tooltip[data-show="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      top var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      left var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      visibility 0s 0s;
+  }
+
+  /* Placement: Top (default) */
+  .app-tooltip[data-placement="top"] .tooltip-arrow {
+    bottom: -4px;
+    left: var(--arrow-left, 50%);
+    margin-left: -4px;
+    border-right: 1px solid rgba(229, 184, 105, 0.25);
+    border-bottom: 1px solid rgba(229, 184, 105, 0.25);
+  }
+
+  /* Placement: Bottom (flipped) */
+  .app-tooltip[data-placement="bottom"] .tooltip-arrow {
+    top: -4px;
+    left: var(--arrow-left, 50%);
+    margin-left: -4px;
+    border-left: 1px solid rgba(229, 184, 105, 0.25);
+    border-top: 1px solid rgba(229, 184, 105, 0.25);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-tooltip {
+      transition: opacity var(--duration-micro, 80ms) linear !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var tooltip = document.getElementById('app-tooltip');
+    var tooltipText = document.getElementById('app-tooltip-text');
+    var tooltipArrow = document.getElementById('app-tooltip-arrow');
+    if (!tooltip || !tooltipText || !tooltipArrow) return;
+
+    var showTimeout;
+    var currentTrigger = null;
+    var APPEAR_DELAY_MS = 120; // Subtle intention delay to prevent jitter
+
+    var isTouchOnly = function () {
+      return window.matchMedia && window.matchMedia('(hover: none)').matches;
+    };
+
+    function hideTooltip() {
+      if (showTimeout) {
+        clearTimeout(showTimeout);
+        showTimeout = null;
+      }
+      currentTrigger = null;
+      tooltip.setAttribute('data-show', 'false');
+      tooltip.setAttribute('aria-hidden', 'true');
+    }
+
+    function positionTooltip(trigger) {
+      var text = trigger.getAttribute('data-tooltip');
+      if (!text) return hideTooltip();
+
+      tooltipText.textContent = text;
+
+      // Force measure dimensions
+      var triggerRect = trigger.getBoundingClientRect();
+      var tooltipRect = tooltip.getBoundingClientRect();
+
+      var viewportWidth = window.innerWidth;
+      var PADDING = 10;
+      var OFFSET = 8; // Spacing between trigger and tooltip
+
+      var placement = 'top';
+
+      // Check vertical collision: flip to bottom if top space is tight
+      var top = triggerRect.top - tooltipRect.height - OFFSET;
+      if (top < PADDING) {
+        placement = 'bottom';
+        top = triggerRect.bottom + OFFSET;
+      }
+
+      // Horizontal centering over trigger
+      var left = triggerRect.left + (triggerRect.width / 2) - (tooltipRect.width / 2);
+
+      // Clamp horizontally within viewport
+      var clampedLeft = Math.max(PADDING, Math.min(left, viewportWidth - tooltipRect.width - PADDING));
+
+      // Calculate arrow offset relative to trigger center
+      var triggerCenter = triggerRect.left + (triggerRect.width / 2);
+      var arrowLeft = Math.max(8, Math.min(triggerCenter - clampedLeft, tooltipRect.width - 8));
+
+      tooltip.style.setProperty('--arrow-left', arrowLeft + 'px');
+      tooltip.style.left = clampedLeft + 'px';
+      tooltip.style.top = top + 'px';
+      tooltip.setAttribute('data-placement', placement);
+    }
+
+    function showTooltip(trigger) {
+      if (isTouchOnly()) return;
+
+      var isAlreadyShowing = tooltip.getAttribute('data-show') === 'true';
+      currentTrigger = trigger;
+
+      if (isAlreadyShowing) {
+        // Smoothly glide across without delay when user is scrubbing between adjacent buttons
+        if (showTimeout) clearTimeout(showTimeout);
+        positionTooltip(trigger);
+      } else {
+        // Initial hover: delay slightly to avoid flickering on transient sweeps
+        if (showTimeout) clearTimeout(showTimeout);
+        showTimeout = window.setTimeout(function () {
+          positionTooltip(trigger);
+          tooltip.setAttribute('data-show', 'true');
+          tooltip.setAttribute('aria-hidden', 'false');
+        }, APPEAR_DELAY_MS);
+      }
+    }
+
+    // Delegated listeners for high performance
+    document.addEventListener('pointerover', function (e) {
+      var target = e.target && e.target.closest ? e.target.closest('[data-tooltip]') : null;
+      if (target && target !== currentTrigger) {
+        showTooltip(target);
+      }
+    });
+
+    document.addEventListener('pointerout', function (e) {
+      var target = e.target && e.target.closest ? e.target.closest('[data-tooltip]') : null;
+      if (target && target === currentTrigger) {
+        var related = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tooltip]') : null;
+        if (!related) {
+          hideTooltip();
+        }
+      }
+    });
+
+    // Keyboard navigation (Tab focus)
+    document.addEventListener('focusin', function (e) {
+      var target = e.target && e.target.closest ? e.target.closest('[data-tooltip]') : null;
+      if (target) {
+        showTooltip(target);
+      }
+    });
+
+    document.addEventListener('focusout', function (e) {
+      var target = e.target && e.target.closest ? e.target.closest('[data-tooltip]') : null;
+      if (target && target === currentTrigger) {
+        hideTooltip();
+      }
+    });
+
+    // Dismiss on scroll or Escape key
+    window.addEventListener('scroll', hideTooltip, { passive: true });
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') hideTooltip();
+    });
+  })();
+</script>

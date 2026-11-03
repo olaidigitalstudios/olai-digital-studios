@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Tooltip from '../components/Tooltip.astro';
 
 interface Props {
   title?: string;
@@ -119,6 +120,7 @@ const schemaGraph = {
   </head>
   <body class="bg-void text-white min-h-screen">
     <slot />
+    <Tooltip />
   </body>
 </html>
 

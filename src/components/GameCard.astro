@@ -94,15 +94,16 @@ const platformNames: Record<string, string> = {
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/[0.04] text-stone-300 hover:text-accent-gold hover:border-accent-gold/40 hover:bg-accent-gold/10 hover:shadow-[0_0_12px_rgba(229,184,105,0.2)] hover:scale-105 border border-white/10 transition-[background-color,color,border-color,transform,box-shadow] duration-quick ease-smooth-out hover:-translate-y-0.5 active:translate-y-0 active:scale-95 active:bg-accent-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
-                  title={platformName}
+                  data-tooltip={`Get on ${platformName}`}
                   aria-label={`Get ${title} on ${platformName} (opens in new tab)`}
                 >
                   <StoreIcon platform={link.platform} class="w-5 h-5" />
                 </a>
               ) : (
                 <span
-                  class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/[0.03] text-gray-500 border border-white/5 cursor-not-allowed"
-                  title={`${platformName} (Coming Soon)`}
+                  class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/[0.03] text-gray-500 border border-white/5 cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-gold/50"
+                  tabindex="0"
+                  data-tooltip={`${platformName} (Coming Soon)`}
                   aria-label={`${platformName} (Coming Soon)`}
                 >
                   <StoreIcon platform={link.platform} class="w-5 h-5 opacity-60" />
@@ -120,8 +121,9 @@ const platformNames: Record<string, string> = {
                 const platformName = platformNames[link.platform] ?? link.label;
                 return (
                   <span
-                    class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/[0.02] text-gray-500 border border-white/5 cursor-not-allowed select-none"
-                    title={`${platformName} — Planned`}
+                    class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/[0.02] text-gray-500 border border-white/5 cursor-not-allowed select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-gold/50"
+                    tabindex="0"
+                    data-tooltip={`${platformName} — Planned`}
                     aria-label={`${platformName} (Planned)`}
                   >
                     <StoreIcon platform={link.platform} class="w-5 h-5 opacity-60" />

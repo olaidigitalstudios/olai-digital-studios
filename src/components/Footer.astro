@@ -48,6 +48,7 @@ const currentYear = new Date().getFullYear();
           <a
             href={`mailto:${contactEmail}`}
             class="text-sm text-stone-200 hover:text-accent-gold active:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded"
+            data-tooltip="Send an email"
             aria-label={`Send email to ${contactEmail}`}
           >
             {contactEmail}
@@ -56,6 +57,7 @@ const currentYear = new Date().getFullYear();
           <button
             id="copy-email-btn"
             class="text-xs font-medium text-stone-400 hover:text-accent-gold active:scale-95 transition-[color,transform] duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded px-1.5 py-0.5"
+            data-tooltip="Copy to clipboard"
             aria-label="Copy email address to clipboard"
           >
             <span id="copy-label" class="t-morph">Copy</span>
@@ -74,6 +76,7 @@ const currentYear = new Date().getFullYear();
       <a
         href="/privacy"
         class="text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
+        data-tooltip="View legal privacy policy"
       >
         Privacy Policy
       </a>
@@ -155,11 +158,19 @@ const currentYear = new Date().getFullYear();
       var doCopy = function () {
         morphText(label, 'Copied!');
         btn.classList.add('text-accent-gold');
+        btn.setAttribute('data-tooltip', 'Email copied!');
         if (feedback) feedback.textContent = 'Email address copied to clipboard.';
+
+        // If tooltip is currently showing on this button, update its text live
+        var tooltipText = document.getElementById('app-tooltip-text');
+        if (tooltipText && document.getElementById('app-tooltip')?.getAttribute('data-show') === 'true') {
+          tooltipText.textContent = 'Email copied!';
+        }
 
         resetTimeout = setTimeout(function () {
           morphText(label, 'Copy');
           btn.classList.remove('text-accent-gold');
+          btn.setAttribute('data-tooltip', 'Copy to clipboard');
           if (feedback) feedback.textContent = '';
         }, 2500);
       };
