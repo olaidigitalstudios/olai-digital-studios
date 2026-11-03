@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://olaidigitalstudios.github.io/sitemap.xml
+Sitemap: https://olaidigitalstudios.netlify.app/sitemap.xml
