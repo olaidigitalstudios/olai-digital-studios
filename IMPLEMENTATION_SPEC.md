@@ -1,23 +1,26 @@
 # Implementation Specification Document (ISD)
 **Project Name:** Olai Digital Studios - Official Portfolio Website  
-**Document Version:** 1.3.0  
-**Status:** Approved for Implementation  
+**Document Version:** 1.4.0 (Production Live & Monetized Implementation)  
+**Status:** Live in Production  
+**Live Production URL:** `https://olaidigitalstudios.netlify.app/`  
 **Derived From:**  
-- [PRODUCT_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/PRODUCT_SPEC.md) (v1.3.0)  
-- [TECH_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/TECH_SPEC.md) (v1.3.0)  
-- [DESIGN_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/DESIGN_SPEC.md) (v1.3.0)  
-**Last Updated:** 2026-11-02  
+- [PRODUCT_SPEC.md](file:///E:/olai-digital-studios/PRODUCT_SPEC.md) (v1.4.0)  
+- [TECH_SPEC.md](file:///E:/olai-digital-studios/TECH_SPEC.md) (v1.4.0)  
+- [DESIGN_SPEC.md](file:///E:/olai-digital-studios/DESIGN_SPEC.md) (v1.4.0)  
+**Last Updated:** 2026-11-05  
 
 ---
 
 ## 1. Implementation Overview & Objectives
 
-This document provides the concrete, file-by-file blueprint and execution roadmap for building the Olai Digital Studios official portfolio website.
+This document provides the definitive, file-by-file implementation blueprint, architecture patterns, and verification records for the Olai Digital Studios official portfolio website.
 
 ### Primary Objectives
-- **Zero-Disruption Migration:** Safely reposition the existing AdMob [app-ads.txt](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/app-ads.txt) into `public/app-ads.txt` so that the build output delivers it untouched at `/app-ads.txt`.
-- **Reproducible Build Environment:** Define exact dependencies, TypeScript configurations, Tailwind theme bindings, and Astro configuration files.
-- **Structured Phased Execution:** Provide a sequential, step-by-step roadmap that can be executed and verified iteratively.
+- **Zero-Disruption AdMob Compliance:** Safely preserve the AdMob crawler file at `public/app-ads.txt` so that the SSG build output delivers `dist/app-ads.txt` with exact byte matching (`google.com, pub-4890313674539327, DIRECT, f08c47fec0942fa0`) and correct `text/plain; charset=utf-8` MIME type.
+- **Reproducible Production Environment:** Define exact dependencies, TypeScript configurations, Tailwind theme bindings, Netlify build configurations, and Astro engine parameters.
+- **Artisanal Floating UI Tooltip Architecture:** Implement a high-performance, collision-aware dark floating tooltip system (`Tooltip.astro`) with decoupled geometry to eliminate layout drift and zoom-scaling glitches.
+- **Dual-Channel Studio Monetization:** Implement zero-server player support actions in `Footer.astro` combining Cashfree hosted UPI for Indian patrons and PayPal.me for global patrons.
+- **Store & SEO Compliance:** Provide dedicated Google Play developer policy compliance (`/privacy`), Google Analytics 4 tracking (`G-QCEE9EZ1X0`), Google Search Console verification, and automated sitemap crawling.
 
 ---
 
@@ -56,7 +59,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://dhineshmoorthy-gamedev.github.io',
+  site: 'https://olaidigitalstudios.netlify.app',
   base: '/',
   trailingSlash: 'never',
   integrations: [
@@ -72,7 +75,19 @@ export default defineConfig({
 });
 ```
 
-### 2.3 TypeScript Configuration (`tsconfig.json`)
+### 2.3 Netlify Configuration (`netlify.toml`)
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[headers]]
+  for = "/app-ads.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+```
+
+### 2.4 TypeScript Configuration (`tsconfig.json`)
 ```json
 {
   "extends": "astro/tsconfigs/strict",
@@ -89,7 +104,7 @@ export default defineConfig({
 }
 ```
 
-### 2.4 Tailwind Configuration (`tailwind.config.mjs`)
+### 2.5 Tailwind Configuration (`tailwind.config.mjs`)
 ```javascript
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -110,6 +125,7 @@ export default {
         }
       },
       fontFamily: {
+        serif: ['"Bodoni Moda"', 'serif'],
         display: ['"Manrope"', 'system-ui', 'sans-serif'],
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
       },
@@ -132,233 +148,177 @@ export default {
 
 ```
 .
-├── .github/
-│   └── workflows/
-│       └── deploy.yml              # CI/CD: Automated build & deploy to GitHub Pages
+├── netlify.toml                    # Netlify production build & app-ads.txt MIME header config
 ├── public/
-│   ├── app-ads.txt                 # Relocated AdMob record (copied untouched to dist/)
+│   ├── app-ads.txt                 # Canonical AdMob developer record (verified pub-4890313674539327)
+│   ├── apple-touch-icon.png        # 180x180 iOS home-screen touch icon
+│   ├── favicon.ico                 # Legacy browser fallback icon
 │   ├── favicon.svg                 # Vector browser favicon mark
-│   └── robots.txt                  # Public crawler permissions
+│   ├── og-banner.png               # 1200x630 Social sharing card
+│   ├── robots.txt                  # Public crawler permissions & sitemap reference
+│   └── sitemap.xml                 # Canonical XML sitemap for Netlify domain
 ├── src/
 │   ├── assets/
 │   │   ├── images/
-│   │   │   ├── logo.svg            # Studio vector mark & typography
-│   │   │   ├── og-banner.png       # 1200x630 Social sharing card
 │   │   │   └── games/              # Source key art images (.png, .webp, .jpg)
 │   │   └── styles/
-│   │       └── global.css          # Tailwind base, typography & motion tokens
+│   │       └── global.css          # Tailwind base, typography, motion tokens & tooltip styling
 │   ├── components/
 │   │   ├── Hero.astro              # Full-viewport screen with Bodoni Moda wordmark, location badge & scroll prompt
 │   │   ├── GamesSection.astro      # Section container querying Astro content collection
 │   │   ├── GameCard.astro          # Unobstructed 16:9 art, single genre in gold, centered title & 4-button launcher dock
-│   │   ├── StoreIcon.astro         # Canonical Simple Icons SVG platform marks
-│   │   └── Footer.astro            # Inquiries copy, Text Morph email copy micro-script, copyright
+│   │   ├── StoreIcon.astro         # Clean Simple Icons SVG platform marks (stripped of <title> tags)
+│   │   ├── Tooltip.astro           # Artisanal unscaled floating tooltip engine with is-gliding transitions
+│   │   └── Footer.astro            # Monetization dock (Cashfree & PayPal), Text Morph email copy, copyright
 │   ├── content/
 │   │   ├── config.ts               # Zod collection schema for game entries
-│   │   └── games/                  # Data files (one JSON file per game)
-│   │       ├── orbital-drift.json
+│   │   └── games/                  # Data files (one JSON file per studio title)
 │   │       ├── checkless.json
 │   │       ├── countagram.json
 │   │       ├── flapcrypt.json
 │   │       ├── grid-leap.json
+│   │       ├── node-attack.json
 │   │       ├── rotatle.json
-│   │       └── shadow-grid.json
+│   │       └── zen-fourier.json
 │   ├── layouts/
-│   │   └── BaseLayout.astro        # Master HTML shell, SEO, OpenGraph & JSON-LD
+│   │   └── BaseLayout.astro        # Master HTML shell, GA4, SEO, OpenGraph, JSON-LD & Tooltip mount
 │   └── pages/
-│       └── index.astro             # Single-page layout composition (Hero + GamesSection + Footer)
+│       ├── index.astro             # Single-page layout composition (Hero + GamesSection + Footer)
+│       └── privacy.astro           # Google Play Developer Policy compliant privacy policy
 ├── .gitignore                      # Standard Astro/Node ignore rules
-├── astro.config.mjs                # Astro engine configuration
+├── astro.config.mjs                # Astro engine configuration (Netlify site URL)
 ├── package.json                    # Project dependencies and npm scripts
-├── tailwind.config.mjs             # Tailwind design token configuration (Direction 4: Heritage & Craft)
+├── tailwind.config.mjs             # Tailwind design token configuration
 ├── tsconfig.json                   # TypeScript path aliases & strict rules
-├── PRODUCT_SPEC.md                 # Product Specification Document (v1.3.0)
-├── TECH_SPEC.md                    # Technical Specification Document (v1.3.0)
-├── DESIGN_SPEC.md                  # Design Specification & System Document (v1.3.0)
-└── IMPLEMENTATION_SPEC.md          # This implementation blueprint (v1.3.0)
+├── PRODUCT_SPEC.md                 # Product Specification Document (v1.4.0)
+├── TECH_SPEC.md                    # Technical Specification Document (v1.4.0)
+├── DESIGN_SPEC.md                  # Design Specification & System Document (v1.4.0)
+└── IMPLEMENTATION_SPEC.md          # This implementation blueprint (v1.4.0)
 ```
 
 ---
 
-## 4. Step-by-Step Implementation Roadmap
+## 4. Implementation Blueprint by Subsystem
+
+### 4.1 Master Shell & Global Setup (`src/layouts/BaseLayout.astro`)
+- **Google Analytics 4 Integration:** Embedded in `<head>` via `is:inline` directive:
+  ```html
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-QCEE9EZ1X0"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCEE9EZ1X0');
+  </script>
+  ```
+- **SEO & Canonical Tags:** Injects `<link rel="canonical" href="https://olaidigitalstudios.netlify.app/">`, OpenGraph cards, Twitter preview metadata, and JSON-LD structured data (`Organization` and `VideoGameCollection`).
+- **Global Tooltip Mount:** Mounts `<Tooltip />` once right before `</body>` to serve all hoverable elements across the application without DOM duplication.
+
+### 4.2 Artisanal Floating Tooltip Engine (`src/components/Tooltip.astro`)
+- **Decoupled Architecture:**
+  - Outer `#app-tooltip`: Strictly manages coordinate positioning (`left`, `top`). Does not apply CSS `transform: scale()`, eliminating geometry recalculation errors and cross-screen fly-in glitches from `(0, 0)`.
+  - Inner `.tooltip-bubble`: Handles visual rendering, background blur (`backdrop-blur-md`), typography (`Plus Jakarta Sans`), and scale animation (`scale(0.96)` to `scale(1)`).
+- **Coordinate Precision:** Calculates target boundaries relative to `window.pageXOffset` / `window.pageYOffset` and uncouples any CSS scale transformations applied to hovered cards.
+- **Gliding Interpolation (`is-gliding`):**
+  - First hover: Activates after a 120ms intention delay with silent positioning snap (no travel animation).
+  - Hovering between adjacent sibling buttons: Enters `.is-gliding` state with a 150ms `cubic-bezier(0.16, 1, 0.3, 1)` transition on `left` and `top`, smoothly gliding between controls without flicker.
+  - Hover exit: Fades out in 80ms (`opacity: 0`).
+- **Collision Detection & Viewport Clamping:** Automatically evaluates viewport bounds. If a tooltip placed at `top` overflows the viewport ceiling, it flips to `bottom`. Supports explicit overrides via `data-tooltip-placement="bottom"`.
+- **Keyboard & Accessibility Support:** Binds to `pointerenter`/`pointerleave` as well as `focusin`/`focusout`. Closes instantly on `Escape`.
+
+### 4.3 Clean Vector Store Launcher Dock (`src/components/StoreIcon.astro` & `GameCard.astro`)
+- **OS Tooltip Suppression:** All SVG `<title>` elements removed from `StoreIcon.astro`. SVGs marked with `aria-hidden="true"`.
+- **Accessible Tooltip Binding:** Anchors and buttons declare both accessible `aria-label` and visual `data-tooltip` attributes.
+- **Contextual Copy Generation:**
+  - Live Web build: `"Play on Web"`
+  - Planned Web build: `"Web — Planned"`
+  - Active platform store link: `"Get on [Platform]"`
+  - In-development store target: `"[Platform] — Planned"`
+- **Placement Override:** Game card store links enforce `data-tooltip-placement="bottom"` to prevent the tooltip from obscuring the game title located above the launcher dock.
+
+### 4.4 Studio Monetization Dock (`src/components/Footer.astro`)
+- **"Support Our Craft" Interface:** Built as a dedicated community support tier directly above the legal copyright bar.
+- **Cashfree Hosted Payment Form:**
+  - URL: `https://payments.cashfree.com/forms/support-olai`
+  - Targets domestic Indian supporters with zero server-side maintenance.
+  - Supports instant UPI (Google Pay, PhonePe, Paytm, BHIM), RuPay cards, and domestic net banking.
+  - Decorated with UPI vector mark and tooltip: `"Contribute via UPI, GPay, PhonePe or Cards (India)"` (`data-tooltip-placement="bottom"`).
+- **PayPal.me International Link:**
+  - URL: `https://paypal.me/olaidigitalstudios`
+  - Targets global/cross-border patrons.
+  - Handled via PayPal India with Purpose Code `P0802` daily auto-sweeps to Indian bank accounts.
+  - Decorated with PayPal mark and tooltip: `"Support internationally via PayPal or Card"` (`data-tooltip-placement="bottom"`).
+- **Text Morph Copy Micro-Interaction:** Contact email button morphs from `"Copy"` to `"✓ Copied!"` using `transitions-dev 33-text-morph` with Champagne Gold feedback and ARIA live regions.
+
+### 4.5 Store Compliance Privacy Endpoint (`src/pages/privacy.astro`)
+- Dedicated Google Play Developer policy-compliant page.
+- Establishes zero personal identifiable information (PII) harvesting.
+- Outlines third-party ad network policies (Google AdMob), child privacy compliance (COPPA), and contact mechanisms (`olaidigitalstudios@gmail.com`).
+
+---
+
+## 5. Step-by-Step Implementation & Verification Roadmap
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│ Phase 1: Environment & Tooling Scaffolding             │
+│ Phase 1: Environment & Tooling Scaffolding             │ [COMPLETED]
 │ - package.json, astro.config.mjs, tailwind.config.mjs  │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 2: Static Asset Relocation & AdMob Verification  │
-│ - Move app-ads.txt to public/, create robots.txt/svg   │
+│ Phase 2: Static Asset Relocation & AdMob Verification  │ [COMPLETED]
+│ - public/app-ads.txt, sitemap.xml, robots.txt, icons   │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 3: Content Collection & Schema Validation        │
-│ - src/content/config.ts with Zod, sample-game.json     │
+│ Phase 3: Content Collection & Schema Validation        │ [COMPLETED]
+│ - src/content/config.ts with Zod, 7 game data files    │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 4: Design Tokens & Layout Skeleton               │
-│ - global.css, Google Fonts import, BaseLayout.astro    │
+│ Phase 4: Master Layout, Design Tokens & Analytics      │ [COMPLETED]
+│ - global.css, BaseLayout.astro, GA4 G-QCEE9EZ1X0       │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 5: Component Implementations                     │
-│ - Header, Hero, GameCard, GamesSection, Footer         │
+│ Phase 5: Component Implementations & Interactions      │ [COMPLETED]
+│ - Hero, GameCard, StoreIcon, Tooltip, Footer           │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 6: Single-Page Composition (index.astro)         │
-│ - Wire components, test responsive layout              │
+│ Phase 6: Privacy Policy & Compliance Route             │ [COMPLETED]
+│ - src/pages/privacy.astro with Google Play compliance  │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 7: GitHub Actions CI/CD Pipeline                 │
-│ - .github/workflows/deploy.yml with dist validation   │
+│ Phase 7: Netlify Build & Production Deployment         │ [COMPLETED]
+│ - netlify.toml, edge CDN, zero-error static compilation│
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
-│ Phase 8: Quality Gates & Production Verification       │
-│ - Local build test, curl app-ads.txt, Lighthouse test  │
+│ Phase 8: Quality Gates & Verification Testing          │ [COMPLETED]
+│ - TypeScript check, AdMob validation, tooltip audit    │
 └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### Phase 1: Environment & Tooling Scaffolding
-1. Create `package.json` with exact versions specified in Section 2.1.
-2. Create `astro.config.mjs`, `tailwind.config.mjs`, and `tsconfig.json`.
-3. Create `.gitignore` ignoring:
-   - `node_modules/`
-   - `dist/`
-   - `.astro/`
-   - `.DS_Store`
-4. Run `npm install` to resolve and lock dependencies.
-
-### Phase 2: Static Asset Relocation & AdMob Verification
-1. Create directory `public/`.
-2. Move root `app-ads.txt` into `public/app-ads.txt`.
-3. Verify byte integrity of `public/app-ads.txt` (`pub-4890313674539327`).
-4. Add `public/robots.txt`:
-   ```txt
-   User-agent: *
-   Allow: /
-   ```
-5. Add vector `public/favicon.svg` matching studio aesthetic.
-
-### Phase 3: Content Collection & Schema Validation
-1. Create `src/content/config.ts` enforcing the Zod schema defined in [TECH_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/TECH_SPEC.md#L94-L125).
-2. Create directory `src/assets/images/games/` for source key art.
-3. Create `src/content/games/sample-game.json` with realistic seed data to test the rendering pipeline before real catalog data is inserted.
-
-### Phase 4: Design Tokens & Master Layout
-1. Create `src/assets/styles/global.css`:
-   - Import fonts (`Space Grotesk` and `Inter` via `@fontsource` or Google Fonts `<link>` in layout).
-   - Inject `@tailwind base;`, `@tailwind components;`, `@tailwind utilities;`.
-   - Set smooth scrolling on `html`:
-     ```css
-     html {
-       scroll-behavior: smooth;
-       background-color: #08090C;
-       color: #F3F4F6;
-     }
-     ```
-2. Create `src/layouts/BaseLayout.astro`:
-   - Inject SEO `<title>`, `<meta name="description">`.
-   - Inject OpenGraph and Twitter card `<meta>` tags.
-   - Inject JSON-LD `Organization` schema.
-   - Slot default body contents.
-
-### Phase 5: Component Implementations
-
-#### 1. `Hero.astro`
-- Full-viewport screen (`min-h-screen`) centered layout on pure dark velvet canvas (`#0C0D0E`).
-- Two-tier studio wordmark in high-contrast Didone serif (**`Bodoni Moda`**): **OLAI** primary with **DIGITAL STUDIOS** subtitle, incorporating negative right margin compensation for true geometric center.
-- Frosted geographic badge in **`Plus Jakarta Sans`**: `Based in Chennai, Tamil Nadu, India` with pulsating Champagne Gold indicator (`bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md`).
-- Geometrically centered bouncing scroll prompt (`Scroll to Explore` with downward arrow linking to `#games`) in **`Plus Jakarta Sans`** with optical letter-spacing compensation.
-- Zero header, zero logo mark, zero generic taglines, zero primary buttons.
-
-#### 2. `GameCard.astro`
-- Unobstructed 16:9 art frame (`aspect-video rounded-xl overflow-hidden`) with zero badges, text overlays, or dark scrims over the art.
-- Dynamic atmospheric background blur (`object-cover blur-2xl scale-110 opacity-30`) paired with sharp foreground key art (`object-contain`).
-- Clean metadata row below image in **`Plus Jakarta Sans`**: single concise genre pill in Champagne Gold (`Puzzle`, `Strategy`, `Word Puzzle`) and live status dot (`Available Now` vs `In Development`).
-- Centered bold title (**`Manrope`** 700 text transitioning to Champagne Gold on card hover). Tagline removed.
-- Centered 4-button launcher dock:
-  - Active games: interactive buttons styled with `bg-surface-elevated/80 border border-white/10 hover:border-accent-gold hover:bg-white/10` with tooltip labels.
-  - In-development games: labeled `Planned on` in **`Plus Jakarta Sans`**, buttons rendered with `opacity-60 cursor-not-allowed select-none`.
-
-#### 3. `StoreIcon.astro`
-- Renders canonical vector SVGs sourced directly from official **Simple Icons**:
-  - `google-play` / `googleplay`
-  - `microsoft-store` / `microsoftstore`
-  - `itch` / `itchdotio`
-  - `web` (crisp globe vector)
-  - `steam`
-  - `app-store`
-
-#### 4. `GamesSection.astro`
-- Section wrapper with `id="games"`.
-- Fetches all games via `await getCollection('games')` and sorts by `featuredOrder`.
-- Renders responsive grid: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8` with stretch column cards (`h-full flex flex-col`).
-
-#### 5. `Footer.astro`
-- Section container with `id="contact"`.
-- Studio contact email display with updated copy: *"For inquiries, partnerships, or feedback, drop us a line."*
-- Character-diff Text Morph clipboard interaction (`transitions-dev 33-text-morph`) morphing `Copy` into `✓ Copied!` with Champagne Gold visual feedback and accessible ARIA live feedback.
-- Outbound developer links and copyright notice: `© 2026 Olai Digital Studios. All rights reserved.`.
-
-### Phase 6: Single-Page Composition
-1. Create `src/pages/index.astro`:
-   ```astro
-   ---
-   import BaseLayout from '@layouts/BaseLayout.astro';
-   import Hero from '@components/Hero.astro';
-   import GamesSection from '@components/GamesSection.astro';
-   import Footer from '@components/Footer.astro';
-   ---
-   <BaseLayout title="Olai Digital Studios | Independent Game Studio">
-     <main>
-       <Hero />
-       <GamesSection />
-     </main>
-     <Footer />
-   </BaseLayout>
-   ```
-2. Verify responsive layout across mobile (375px), tablet (768px), and desktop (1440px).
-
-### Phase 7: GitHub Actions CI/CD Pipeline
-1. Create directory `.github/workflows/`.
-2. Create `.github/workflows/deploy.yml` with the exact workflow defined in [TECH_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/TECH_SPEC.md#L187-L232).
-3. Include the pre-deployment verification step:
-   ```yaml
-   - name: Verify app-ads.txt in build output
-     run: test -f dist/app-ads.txt || (echo "Missing app-ads.txt in dist!" && exit 1)
-   ```
-
-### Phase 8: Quality Gates & Verification Testing
-1. Run `npm run check` to verify TypeScript and Astro schema integrity (0 errors, 0 warnings).
-2. Run `npm run build` to verify clean build generation in `dist/` (0 errors, static HTML + Sharp WebP assets generated).
-3. Inspect `dist/app-ads.txt` to verify exact matching content with the original file (`google.com, pub-4890313674539327, DIRECT, f08c47fec0942fa0`).
-4. Outbound link verification: all live platform links tested including Netlify web demos.
-
----
-
-## 5. Risk Assessment & Mitigations
+## 6. Security, Compliance & Risk Mitigations
 
 | Risk | Impact | Mitigation Strategy |
 | :--- | :--- | :--- |
-| **`app-ads.txt` accidentally excluded from build** | Critical (AdMob crawler fails verification, ad revenue halts) | Placed directly in `public/app-ads.txt`. CI/CD workflow contains an explicit assertion step (`test -f dist/app-ads.txt`) that aborts the deployment if missing. |
-| **Missing image or broken URL in game data** | Moderate (Broken UI) | Zod schema validation in `src/content/config.ts` fails the build at compile time if an image doesn't exist or a URL is malformed. |
-| **Clipboard API blocked in non-HTTPS / restricted contexts** | Low (Copy button fails silently) | Micro-script includes a `try/catch` block with fallback to `document.execCommand('copy')`. |
-| **Cumulative Layout Shift from unoptimized key art** | Low (SEO/Performance penalty) | Astro's `<Image />` component automatically sets intrinsic `width` and `height` dimensions and compiles images to WebP. |
+| **`app-ads.txt` missing or corrupted** | Critical (AdMob crawler fails verification, ad revenue ceases) | Placed directly in `public/app-ads.txt`. Verified byte-by-byte (`pub-4890313674539327`). Netlify headers config forces `text/plain; charset=utf-8`. |
+| **Payment security / PCI liability** | High (Regulatory penalties or data compromise) | Zero customer financial data touches the studio server. Cashfree handles domestic UPI/cards on their PCI-DSS Level 1 certified hosted form; PayPal handles international payments on their secure checkout. |
+| **Foreign Exchange compliance (India)** | Moderate (Account freeze or RBI compliance inquiry) | PayPal account configured under export purpose code `P0802` (Software & Gaming Services), allowing RBI auto-repatriation to the registered Indian bank account. |
+| **Browser native tooltip collisions** | Low (Clunky double tooltips on hover) | Removed all `<title>` elements from SVGs in `StoreIcon.astro`. Kept accessible `aria-label` on buttons and hooked into the custom `#app-tooltip`. |
+| **Tooltip positioning drift during card hover** | Low (Visual jank / flying tooltips) | Decoupled the outer positioning container (`#app-tooltip`) from scale transitions and calculated unscaled target dimensions. |
 
 ---
 
-## 6. Execution Readiness Checklist
+## 7. Execution Readiness & Sign-Off Checklist
 
-- [x] **Product Specification** finalized and approved ([PRODUCT_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/PRODUCT_SPEC.md)).
-- [x] **Technical Specification** finalized and approved ([TECH_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/TECH_SPEC.md)).
-- [x] **Design Specification & Tokens** finalized and approved ([DESIGN_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/DESIGN_SPEC.md)).
-- [x] **Implementation Roadmap** documented with exact dependencies and file manifest ([IMPLEMENTATION_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/IMPLEMENTATION_SPEC.md)).
-- [x] **Implementation Execution:** All phases (1 through 8) fully implemented and verified with zero errors. Build output and AdMob compliance confirmed.
+- [x] **Product Specification** finalized and approved ([PRODUCT_SPEC.md](file:///E:/olai-digital-studios/PRODUCT_SPEC.md) v1.4.0).
+- [x] **Technical Specification** finalized and approved ([TECH_SPEC.md](file:///E:/olai-digital-studios/TECH_SPEC.md) v1.4.0).
+- [x] **Design Specification & Tokens** finalized and approved ([DESIGN_SPEC.md](file:///E:/olai-digital-studios/DESIGN_SPEC.md) v1.4.0).
+- [x] **Implementation Blueprint** fully synchronized and verified ([IMPLEMENTATION_SPEC.md](file:///E:/olai-digital-studios/IMPLEMENTATION_SPEC.md) v1.4.0).
+- [x] **Production Verification:** Zero Astro/TypeScript check errors, zero build errors, all 7 catalog games rendering cleanly, AdMob crawler file live at `/app-ads.txt`, monetization forms operational.

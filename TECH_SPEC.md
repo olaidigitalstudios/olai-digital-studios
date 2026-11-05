@@ -1,15 +1,16 @@
 # Technical Specification Document (TSD)
 **Project Name:** Olai Digital Studios - Official Portfolio Website  
-**Document Version:** 1.3.0  
-**Status:** Approved for Implementation  
-**Derived From:** [PRODUCT_SPEC.md](file:///C:/Users/DHINESH/Desktop/github/app-ads.txt/PRODUCT_SPEC.md) (v1.3.0)  
-**Last Updated:** 2026-11-02  
+**Document Version:** 1.4.0 (Production Live & Monetized Architecture)  
+**Status:** Live in Production  
+**Live Production URL:** `https://olaidigitalstudios.netlify.app/`  
+**Derived From:** [PRODUCT_SPEC.md](file:///E:/olai-digital-studios/PRODUCT_SPEC.md) (v1.4.0)  
+**Last Updated:** 2026-11-05  
 
 ---
 
 ## 1. Technical Overview & Architectural Principles
 
-The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-overhead Static Site Generation (SSG) web application.
+The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-overhead Static Site Generation (SSG) web application deployed natively on Netlify.
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -19,30 +20,36 @@ The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-o
 │      (JSON / Zod)     │                                │
 │                       ▼                                │
 │  src/components/  ──► [ Astro Core (Vite Engine) ]     │
-│  src/assets/          │                                │
-│                       ▼                                │
-│  public/app-ads.txt ──► [ Build Output: dist/ ]        │
+│  src/layouts/         │                                │
+│  src/assets/          ▼                                │
+│  public/          ──► [ Build Output: dist/ ]          │
+│                       ├── index.html                   │
+│                       ├── privacy/index.html           │
+│                       ├── app-ads.txt                  │
+│                       └── sitemap.xml                  │
 └───────────────────────┼────────────────────────────────┘
                         │
-                        ▼ (GitHub Actions Push to main)
+                        ▼ (Git Push to master / Netlify Webhook)
 ┌────────────────────────────────────────────────────────┐
-│                 Hosting & Delivery                     │
+│                 Hosting & Edge Delivery                │
 │                                                        │
-│                  GitHub Pages (CDN)                    │
+│                 Netlify Edge Network (CDN)             │
 │                           │                            │
-│           ┌───────────────┴───────────────┐            │
-│           ▼                               ▼            │
-│  Browsers (0kb JS HTML/CSS)      AdMob Crawler (GET /) │
-│  - Instant First Contentful      - 200 OK text/plain   │
-│  - Smooth anchor navigation      - pub-489031367453... │
+│           ┌───────────────┼───────────────┐            │
+│           ▼               ▼               ▼            │
+│  Browsers             AdMob Crawler   Search Engines   │
+│  (Pure Static HTML)   (GET /app-ads)  (GET /sitemap)   │
+│  - GA4 Telemetry      - 200 OK text   - 200 OK xml     │
+│  - Floating Tooltip   - pub-4890...   - Canonical URLs │
 └────────────────────────────────────────────────────────┘
 ```
 
 ### Architectural Principles
-- **Static First (0kb JS by default):** All HTML and CSS are pre-rendered at compile time. No client-side framework runtime (no React/Vue runtime overhead) is delivered to the browser.
-- **Type-Safe Content Modeling:** Game catalog entries are defined as structured data files validated at build-time with Zod schemas. Any invalid URL, missing banner image, or typo breaks the build immediately with actionable error messages.
-- **Root Compliance Preservation:** The critical AdMob `app-ads.txt` is served directly from the root of the domain as an unbundled, untransformed static asset with HTTP 200 and `text/plain` MIME type.
-- **Automated CI/CD:** Continuous integration and deployment are fully automated using native GitHub Actions deploying directly to GitHub Pages.
+- **Static First (0kb JS Framework by Default):** All HTML and CSS are pre-rendered at compile time. No client-side framework runtime (no React, Vue, or Angular bundle overhead) is delivered to the browser.
+- **Type-Safe Content Modeling:** Game catalog entries are defined as structured data files validated at build-time with Zod schemas (`astro:content`). Any invalid URL, missing banner image, or typo breaks the build immediately with actionable error messages.
+- **Root Compliance Preservation:** The AdMob `app-ads.txt` is served directly from the root of the domain as an unbundled, untransformed static asset with HTTP 200 and `text/plain` MIME type.
+- **Dual-Channel Zero-Server Monetization:** Studio support links (Cashfree UPI & PayPal) operate via secure, pre-validated hosted checkout URLs, requiring zero custom backend code and creating zero PCI-DSS compliance liability.
+- **Client-Side Micro-Orchestration:** Client scripts are isolated to lightweight vanilla JS singletons (< 80 lines each) for the custom floating tooltip engine, Text Morph clipboard feedback, and ambient canvas constellation.
 
 ---
 
@@ -50,15 +57,16 @@ The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-o
 
 | Layer | Technology | Selection Rationale |
 | :--- | :--- | :--- |
-| **Framework / SSG** | **Astro (v4.x / v5.x)** | Static-first framework with native Content Collections, Vite-powered developer server, and pure HTML output. |
-| **Build Tool / Bundler** | **Vite (Internal to Astro)** | Lightning-fast development HMR, modern ES module bundling, and integrated asset pipeline. |
-| **Styling** | **Tailwind CSS (`@astrojs/tailwind`)** | Utility-first CSS compiler that strips all unused styles, simplifies responsive breakpoints, and enforces design tokens. |
+| **Framework / SSG** | **Astro (v4.16.x)** | Static-first framework with native Content Collections, Vite-powered developer server, and pure HTML output. |
+| **Build Tool / Bundler** | **Vite (Internal to Astro)** | High-speed development HMR, modern ES module bundling, and integrated asset pipeline. |
+| **Styling** | **Tailwind CSS (`@astrojs/tailwind`)** | Utility-first CSS compiler that strips unused styles, simplifies responsive breakpoints, and enforces design tokens. |
 | **Type Validation** | **Zod (`astro:content`)** | Built-in compile-time schema validation for game data. |
-| **Image Optimization** | **`astro:assets` (Sharp Engine)** | Automatic WebP conversion, layout shift (CLS) prevention, and automatic responsive image sizing. |
+| **Image Optimization** | **`astro:assets` (Sharp Engine)** | Automatic WebP conversion, layout shift (CLS) prevention, and responsive image sizing. |
 | **Runtime Environment** | **Node.js (v20+ LTS)** | Standard Node runtime for build and local development. |
-| **Package Manager** | **npm** | Zero-setup package manager standard across GitHub Actions environments. |
-| **Hosting & CDN** | **GitHub Pages** | Free, high-availability static hosting integrated directly with the repository. |
-| **CI/CD** | **GitHub Actions** | Native repository automation via `actions/deploy-pages`. |
+| **Package Manager** | **npm** | Package manager and build script runner. |
+| **Hosting & Edge Delivery** | **Netlify** | Native Astro static deployment, global edge CDN, and automated HTTPS. |
+| **Analytics & Telemetry** | **Google Analytics 4 (GA4)** | Client-side tracking via `gtag.js` (`G-QCEE9EZ1X0`) for real-time player and visitor telemetry. |
+| **Search Engine Console** | **Google Search Console** | Verified property with XML sitemap submission (`https://olaidigitalstudios.netlify.app/sitemap.xml`). |
 
 ---
 
@@ -66,52 +74,104 @@ The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-o
 
 ```
 .
-├── .github/
-│   └── workflows/
-│       └── deploy.yml              # GitHub Actions CI/CD deployment workflow
+├── netlify.toml                    # Netlify build configuration & publish settings
+├── package.json                    # Project dependencies & build scripts
+├── astro.config.mjs                # Astro configuration (site URL, Tailwind integration)
+├── tailwind.config.mjs             # Tailwind design tokens, colors & transitions
+├── tsconfig.json                   # TypeScript strict compiler configuration
+│
 ├── public/
-│   ├── app-ads.txt                 # AdMob publisher verification file (served at /app-ads.txt)
+│   ├── app-ads.txt                 # AdMob publisher authorization record
+│   ├── robots.txt                  # Web crawler directives referencing sitemap
+│   ├── sitemap.xml                 # XML sitemap for Google Search Console
 │   ├── favicon.svg                 # Vector browser favicon
-│   └── robots.txt                  # Search engine and crawler instructions
-├── src/
-│   ├── assets/
-│   │   ├── images/
-│   │   │   ├── logo.svg            # Studio vector brandmark
-│   │   │   └── games/              # High-resolution source key art images (.png, .webp, .jpg)
-│   │   └── styles/
-│   │       └── global.css          # Tailwind base directives, typography & motion tokens
-│   ├── components/
-│   │   ├── Hero.astro              # Full-viewport screen with Bodoni Moda wordmark, location badge & scroll prompt
-│   │   ├── GamesSection.astro      # Section wrapper rendering the game catalog grid
-│   │   ├── GameCard.astro          # Unobstructed 16:9 art, single genre, centered title & 4-button launcher dock
-│   │   ├── StoreIcon.astro         # Canonical Simple Icons SVG vectors for all gaming platforms
-│   │   └── Footer.astro            # Inquiries copy, Text Morph email copy widget & copyright
-│   ├── content/
-│   │   ├── config.ts               # Content collection definitions & Zod validation schemas
-│   │   └── games/                  # Game entries (one JSON file per game)
-│   │       ├── orbital-drift.json
-│   │       ├── checkless.json
-│   │       ├── countagram.json
-│   │       ├── flapcrypt.json
-│   │       ├── grid-leap.json
-│   │       ├── rotatle.json
-│   │       └── shadow-grid.json
-│   ├── layouts/
-│   │   └── BaseLayout.astro        # HTML5 boilerplate, SEO meta tags, OpenGraph, JSON-LD
-│   └── pages/
-│       └── index.astro             # Single-page entry assembling BaseLayout + Hero + GamesSection + Footer
-├── astro.config.mjs                # Astro configuration file (integrations, site URL, base)
-├── package.json                    # Dependencies and build scripts
-├── tailwind.config.mjs             # Tailwind theme extensions (colors, fonts, screens)
-└── tsconfig.json                   # TypeScript configuration for Astro and content collections
+│   ├── favicon.ico                 # Fallback browser icon
+│   ├── apple-touch-icon.png        # Mobile touch icon
+│   └── og-banner.png               # High-res OpenGraph social share card (1200×630)
+│
+└── src/
+    ├── assets/
+    │   ├── images/games/           # High-resolution key art (.png, .webp, .jpg)
+    │   └── styles/
+    │       └── global.css          # Tailwind base, typography & motion tokens
+    ├── components/
+    │   ├── Hero.astro              # Full-viewport landing with Bodoni Moda & constellation canvas
+    │   ├── GamesSection.astro      # Section wrapper rendering the game catalog grid
+    │   ├── GameCard.astro          # Unobstructed art, status, title & 4-button launcher dock
+    │   ├── StoreIcon.astro         # Clean Simple Icons SVG vectors (no default title elements)
+    │   ├── Tooltip.astro           # Singleton floating tooltip portal with collision detection
+    │   └── Footer.astro            # Inquiries, Text Morph email copy & dual-channel support buttons
+    ├── content/
+    │   ├── config.ts               # Content collection definitions & Zod validation schemas
+    │   └── games/                  # Game entries (one JSON file per game)
+    │       ├── zen-fourier.json
+    │       ├── countagram.json
+    │       ├── grid-leap.json
+    │       ├── node-attack.json
+    │       ├── checkless.json
+    │       ├── rotatle.json
+    │       └── flapcrypt.json
+    ├── layouts/
+    │   └── BaseLayout.astro        # HTML5 boilerplate, GA4 tag, SEO, OpenGraph, JSON-LD Schema
+    └── pages/
+        ├── index.astro             # Studio homepage aggregating Hero, Games, and Footer
+        └── privacy.astro           # Google Play compliant on-site Privacy Policy
 ```
 
 ---
 
-## 4. Data Layer & Content Schema
+## 4. Component Architecture & Implementation Details
 
-### 4.1 Content Collection Schema (`src/content/config.ts`)
-Astro Content Collections enforce strict compile-time validation using Zod:
+### 4.1 BaseLayout (`src/layouts/BaseLayout.astro`)
+- **Google Analytics 4 Tag (`gtag.js`):** Embedded in `<head>` using Astro's `is:inline` directive:
+  ```html
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCEE9EZ1X0"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCEE9EZ1X0');
+  </script>
+  ```
+- **SEO & Canonical URLs:** Dynamic `<link rel="canonical">` and OpenGraph metadata generated against `https://olaidigitalstudios.netlify.app`.
+- **Structured Data (Schema.org):** Comprehensive `@graph` containing:
+  - `Organization` metadata (studio identity, Chennai location, support email).
+  - `VideoGame` schema for all 7 catalog games (title, genre, platform, operating system, and offer availability).
+- **Global Portal Mount:** Instantiates `<Tooltip />` immediately before `</body>` to prevent clipping by overflow-hidden containers.
+
+### 4.2 Custom Tooltip Engine (`src/components/Tooltip.astro`)
+- **Singleton Architecture:** Single `#app-tooltip` element anchored at root coordinates, eliminating DOM bloat.
+- **Decoupled Geometry & Visuals:** Outer `#app-tooltip` strictly handles `top` and `left` in fixed coordinates, while inner `.tooltip-bubble` handles `scale` and `opacity` transitions.
+- **Silent Snap on First Hover:** Coordinates are positioned silently *before* triggering the appear animation, completely preventing "fly-in" motion from `(0, 0)`.
+- **Adjacent Button Gliding:** When scrubbing between adjacent store buttons while the tooltip is already visible, the `.is-gliding` class activates smooth coordinate interpolation (`150ms`).
+- **Collision & Viewport Detection:** Defaults to `data-placement="bottom"` on game cards to prevent overlapping card titles; flips to `top` if colliding with viewport bottom.
+- **Touch & Accessibility Guards:** Suppressed on touch devices (`@media (hover: none)`), supports `Tab` keyboard focus, and dismisses on `Escape` or scroll.
+
+### 4.3 Clean Vector Icons (`src/components/StoreIcon.astro`)
+- Brand icons (Google Play, Microsoft Store, itch.io, Steam, App Store, Web, GitHub) rendered from canonical Simple Icons vectors.
+- **Zero Browser Default Tooltips:** All SVG `<title>` elements are completely omitted. Parent links and badges carry explicit `aria-label` attributes for screen readers, preventing browsers from rendering the native OS tooltip.
+
+### 4.4 Game Cards (`src/components/GameCard.astro`)
+- **Unobstructed 16:9 Frame:** Key artwork rendered with Sharp-optimized WebP images with an ambient blurred clone backdrop for non-standard aspect ratios.
+- **Launcher Dock Behavior:**
+  - Live games: Clickable 44×44px tiles linking to external stores. Web builds feature custom tooltip copy **`Play on Web`**; store links display **`Get on [Platform]`**.
+  - In-development games: Muted tiles (`opacity-60 cursor-not-allowed select-none`) with tooltips reading **`[Platform] — Planned`** (including **`Web — Planned`**).
+  - All card tooltips enforce `data-tooltip-placement="bottom"`.
+
+### 4.5 Studio Footer & Monetization Hub (`src/components/Footer.astro`)
+- **Text Morph Clipboard Copy:** Powered by `transitions-dev` character-diff morphing (`"Copy"` $\rightarrow$ `"Copied!"` $\rightarrow$ `"Copy"` after 2.5s) using `navigator.clipboard` with an invisible `textarea` fallback for legacy browsers.
+- **Dual-Channel Monetization Hub ("Support Our Craft"):**
+  - **Domestic Button (Cashfree):** Direct link to `https://payments.cashfree.com/forms/support-olai` with emerald active indicator. Accepts UPI (GPay, PhonePe, Paytm, BHIM) and Indian cards.
+  - **International Button (PayPal):** Direct link to `https://paypal.me/olaidigitalstudios` with gold PayPal monogram. Accepts global PayPal wallets and international cards.
+  - Both buttons enforce `target="_blank" rel="noopener noreferrer"` and carry bottom tooltips.
+
+### 4.6 Privacy Policy (`src/pages/privacy.astro`)
+- On-site legal page meeting Google Play Developer Policy and COPPA requirements.
+- Details: No account creation, no personal data collection, Google Play Game Services and AdMob advertising ID policies, child privacy safeguards, and contact email.
+
+---
+
+## 5. Content Collection Schema (`src/content/config.ts`)
 
 ```typescript
 import { defineCollection, z } from 'astro:content';
@@ -121,29 +181,21 @@ const gamesCollection = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string().min(1, 'Title is required'),
-      tagline: z.string().max(120, 'Tagline must be under 120 characters'),
-      genre: z.string(), // Single concise genre (e.g., 'Puzzle', 'Strategy', 'Word Puzzle')
-      status: z.enum(['Available Now', 'In Development', 'Early Access']),
-      coverImage: image(), // Validates image file existence and enables Sharp optimization
-      coverAlt: z.string(),
-      featuredOrder: z.number().default(99),
+      genre: z.string().min(1, 'Genre is required'),
+      tagline: z.string().min(1, 'Tagline is required'),
+      status: z.enum(['Available Now', 'In Development']),
+      coverImage: image(),
+      coverAlt: z.string().min(1, 'Cover alt text is required'),
+      releaseDate: z.string().optional(),
       storeLinks: z
         .array(
           z.object({
-            platform: z.enum([
-              'google-play',
-              'app-store',
-              'steam',
-              'itch',
-              'microsoft-store',
-              'web'
-            ]),
-            label: z.string(),
-            url: z.string().optional(),
-            primary: z.boolean().default(false)
+            platform: z.enum(['google-play', 'app-store', 'steam', 'itch', 'microsoft-store', 'web']),
+            url: z.string().url().or(z.literal('')).optional(),
+            label: z.string()
           })
         )
-        .default([])
+        .optional()
     })
 });
 
@@ -152,334 +204,54 @@ export const collections = {
 };
 ```
 
-### 4.2 Game Data Entry Examples
+---
 
-#### Released Title (`src/content/games/countagram.json`)
-```json
-{
-  "title": "Countagram",
-  "tagline": "Crack the letter counts. Uncover every anagram.",
-  "genre": "Word Puzzle",
-  "status": "Available Now",
-  "coverImage": "../../assets/images/games/countagram.jpg",
-  "coverAlt": "Countagram key art showing letter frequency puzzles and word anagrams",
-  "featuredOrder": 4,
-  "storeLinks": [
-    {
-      "platform": "google-play",
-      "label": "Get on Google Play",
-      "url": "https://play.google.com/store/apps/details?id=com.olaidigitalstudios.countagram",
-      "primary": true
-    },
-    {
-      "platform": "microsoft-store",
-      "label": "Get it from Microsoft Store",
-      "url": "https://apps.microsoft.com/detail/9mvz4fhkbml5",
-      "primary": false
-    },
-    {
-      "platform": "itch",
-      "label": "Play on itch.io",
-      "url": "https://olaidigitalstudios.itch.io/countagram",
-      "primary": false
-    },
-    {
-      "platform": "web",
-      "label": "Web",
-      "url": "https://countagram.netlify.app/",
-      "primary": false
-    }
-  ]
-}
+## 6. Hosting & CI/CD Deployment
+
+### 6.1 Netlify Configuration (`netlify.toml`)
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[headers]]
+  for = "/app-ads.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
 ```
 
-#### In-Development Title (`src/content/games/rotatle.json`)
-```json
-{
-  "title": "Rotatle",
-  "tagline": "Rotate the board, guide falling letters, and solve clever word puzzles.",
-  "genre": "Word Puzzle",
-  "status": "In Development",
-  "coverImage": "../../assets/images/games/rotatle.png",
-  "coverAlt": "Rotatle key art showing rotating letter board mechanics and falling gravity puzzles",
-  "featuredOrder": 5,
-  "storeLinks": [
-    {
-      "platform": "google-play",
-      "label": "Google Play",
-      "primary": false
-    },
-    {
-      "platform": "microsoft-store",
-      "label": "Microsoft Store",
-      "primary": false
-    },
-    {
-      "platform": "itch",
-      "label": "itch.io",
-      "primary": false
-    },
-    {
-      "platform": "web",
-      "label": "Web",
-      "primary": false
-    }
-  ]
-}
-```
+### 6.2 Deployment Pipeline
+1. Changes pushed to GitHub repository `olaidigitalstudios/olai-digital-studios` on branch `master`.
+2. Netlify automated webhook detects commit, executes `npm run build` (`astro check && astro build`).
+3. Astro generates static output into `dist/`.
+4. Netlify edge nodes deploy new static bundle across global CDN within ~20 seconds with zero downtime.
 
 ---
 
-## 5. AdMob `app-ads.txt` Integration
+## 7. Performance & Security Specifications
 
-### 5.1 Preservation & Deployment Guarantee
-- The existing verification file resides in `public/app-ads.txt`.
-- When `astro build` executes, Astro copies all files from `public/` directly into the root of `dist/` without modification, transformation, or compression.
-- **Verification Rule:** `dist/app-ads.txt` will contain the exact byte sequence:
-  ```
-  google.com, pub-4890313674539327, DIRECT, f08c47fec0942fa0
-  ```
-
-### 5.2 Server Routing & Response Specification
-When requested by the Google AdMob crawler via `GET /app-ads.txt`:
-- **HTTP Status:** `200 OK`
-- **MIME Type:** `text/plain; charset=utf-8`
-- **No Redirects:** Direct resolution with zero 301/302 redirects.
-- **Cache-Control:** Standard static CDN caching with `stale-while-revalidate`.
-
----
-
-## 6. Asset Optimization Pipeline
-
-### 6.1 Key Art Presentation & Dual-Layer Ambient Background
-Key art source files are stored in `src/assets/images/games/`. To provide an unobstructed, edge-to-edge frame that handles arbitrary image dimensions (16:9 landscape, vertical posters, or square tiles) without letterboxing bars or awkward cropping, `GameCard.astro` implements a dual-layer container:
-- **Ambient Blurred Underlayer:** The source key art is rendered full-bleed with `absolute inset-0 object-cover blur-2xl scale-110 opacity-30` to generate a dynamic, color-matched atmospheric glow.
-- **Sharp Foreground Key Art:** The primary key art is centered with `relative z-10 w-full h-full object-contain` inside a strict `aspect-video` (16:9) frame.
-- **Zero-Overlay Guarantee:** Badges, text overlays, and dark scrims are forbidden over the key art frame, preserving 100% artwork visibility.
-
-```astro
-<div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black/40 border border-white/5">
-  <!-- Dynamic atmospheric blur background -->
-  <Image
-    src={game.data.coverImage}
-    alt=""
-    aria-hidden="true"
-    width={400}
-    height={225}
-    format="webp"
-    quality={40}
-    class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-30 select-none pointer-events-none"
-  />
-  <!-- Sharp foreground key art -->
-  <Image
-    src={game.data.coverImage}
-    alt={game.data.coverAlt}
-    width={640}
-    height={360}
-    format="webp"
-    quality={85}
-    loading="lazy"
-    decoding="async"
-    class="relative z-10 w-full h-full object-contain transition-transform duration-moderate ease-smooth-out group-hover:scale-[1.02]"
-  />
-</div>
-```
-
-### 6.2 Platform Icon Pipeline (`StoreIcon.astro`)
-Platform store marks are rendered as vector SVGs sourced directly from the official **Simple Icons** repository to eliminate hand-drawn approximations and ensure brand fidelity:
-- `google-play` / `googleplay`: Official Google Play polygon glyph.
-- `microsoft-store` / `microsoftstore`: Official 4-square Microsoft glyph.
-- `itch` / `itchdotio`: Official Itch.io gamepad glyph.
-- `web`: Crisp globe vector for direct browser playable links.
-- `steam`, `app-store`: Ready-to-use canonical SVGs.
-
----
-
-## 7. Client-Side Interactivity (Text Morph Micro-Script)
-
-To adhere to the 0kb runtime framework principle, client-side functionality is implemented using an isolated, zero-dependency inline script in `Footer.astro` powered by the `transitions-dev` Text Morph interaction pattern:
-
-```html
-<script is:inline>
-  (function () {
-    var btn = document.getElementById('copy-email-btn');
-    var label = document.getElementById('copy-label');
-    var feedback = document.getElementById('copy-feedback');
-    var email = 'olaidigitalstudios@gmail.com';
-    var resetTimeout;
-
-    if (!btn || !label) return;
-
-    // Character-diff Text Morph (transitions-dev 33-text-morph)
-    function morphText(el, next) {
-      var prev = el.dataset.text || el.textContent;
-      if (prev === next) return;
-      el.dataset.text = next;
-      // ... computes longest common prefix/suffix and animates sliding transition ...
-    }
-
-    btn.addEventListener('click', async function () {
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(email);
-        } else {
-          // Fallback textarea copy
-          var ta = document.createElement('textarea');
-          ta.value = email;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.focus();
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-        }
-        morphText(label, '✓ Copied!');
-        if (feedback) feedback.textContent = 'Email copied to clipboard';
-        btn.classList.add('text-accent-gold');
-        clearTimeout(resetTimeout);
-        resetTimeout = setTimeout(function () {
-          morphText(label, 'Copy');
-          btn.classList.remove('text-accent-gold');
-        }, 2200);
-      } catch (err) {
-        console.error('Failed to copy email:', err);
-      }
-    });
-  })();
-</script>
-```
-
----
-
-## 8. CI/CD & Deployment Pipeline
-
-### 8.1 GitHub Configuration
-- **Repository URL:** `https://github.com/DhineshMoorthy-gamedev/app-ads.txt`
-- **Deployment Source:** GitHub Actions (configured in Repository Settings -> Pages -> Build and deployment -> Source: **GitHub Actions**).
-
-### 8.2 GitHub Actions Workflow (`.github/workflows/deploy.yml`)
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js (v20)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build static site with Astro
-        run: npm run build
-
-      - name: Verify app-ads.txt in build output
-        run: test -f dist/app-ads.txt || (echo "Missing app-ads.txt in dist!" && exit 1)
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
-
----
-
-## 9. Performance & Security Specifications
-
-### 9.1 Performance Budgets
-| Metric | Target | Technical Mechanism |
+### 7.1 Performance Targets
+| Metric | Target | Actual / Technical Mechanism |
 | :--- | :--- | :--- |
-| **First Contentful Paint (FCP)** | < 0.8s | Zero external render-blocking scripts; critical CSS inlined by Tailwind. |
-| **Largest Contentful Paint (LCP)** | < 1.5s | Hero section key art preloaded; WebP asset compression via Sharp. |
-| **Cumulative Layout Shift (CLS)** | 0.00 | Strict image dimensions (`width`/`height`) set on every visual element. |
-| **Total JavaScript Delivered** | < 2 KB | Only the ~30-line inline clipboard handler; no framework runtime. |
+| **First Contentful Paint (FCP)** | < 0.8s | Zero render-blocking JS; inlined atomic CSS via Tailwind. |
+| **Largest Contentful Paint (LCP)** | < 1.2s | WebP image optimization via Sharp with priority lazy loading. |
+| **Cumulative Layout Shift (CLS)** | 0.00 | Explicit aspect ratios (`aspect-video`) and image dimensions. |
+| **Total JavaScript Delivered** | < 4 KB | Vanilla singleton scripts for tooltip, text morph, and canvas. |
 
-### 9.2 Security Rules
-- **Outbound Link Hardening:** Every external anchor tag targeting stores or developer profiles must strictly include:
-  ```html
-  target="_blank" rel="noopener noreferrer"
-  ```
-- **Zero Attack Surface:** No backend servers, API endpoints, or database connections.
-- **Content Security:** No external script CDN tags (no third-party tracking libraries, tag managers, or ad scripts on the portfolio site).
-
-### 9.3 SEO, Social Metadata & Schema.org
-`BaseLayout.astro` generates standard head tags:
-- Canonical URL: `https://dhineshmoorthy-gamedev.github.io`
-- OpenGraph Tags: `og:title`, `og:description`, `og:type="website"`, `og:image` (1200x630 social card banner)
-- Twitter Card: `twitter:card="summary_large_image"`
-- Structured Data (JSON-LD):
-  ```json
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Olai Digital Studios",
-    "url": "https://dhineshmoorthy-gamedev.github.io",
-    "logo": "https://dhineshmoorthy-gamedev.github.io/assets/logo.svg",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "olaidigitalstudios@gmail.com",
-      "contactType": "customer support"
-    }
-  }
-  ```
+### 7.2 Security Hardening
+- **Reverse Tab-Nabbing Guard:** All external outbound links (stores, Cashfree, PayPal) enforce `target="_blank" rel="noopener noreferrer"`.
+- **Zero API Key Exposure:** No private tokens or gateway client secrets are embedded in client code.
+- **Zero Backend Attack Surface:** No dynamic database queries, server endpoints, or user input execution.
+- **PCI-DSS Compliance:** All payments are processed on PCI-compliant hosted pages (Cashfree / PayPal); the website never touches card or UPI data.
 
 ---
 
-## 10. Traceability Matrix
+## 8. Verification & Test Checklist
 
-| Product Spec Requirement | Tech Spec Implementation Mechanism |
-| :--- | :--- |
-| **FR-01: Section Anchor Navigation** | Native HTML smooth scrolling (`scroll-behavior: smooth`) with semantic IDs (`#games`, `#contact`). |
-| **FR-02: Structured Catalog Presentation** | Astro Content Collections (`src/content/games/*.json`) rendered via `Astro.getCollection('games')`. |
-| **FR-03: Responsive Grid Layout** | Tailwind CSS grid classes (`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8`). |
-| **FR-04: Non-Disruptive Outbound Links** | Native HTML `target="_blank" rel="noopener noreferrer"` attributes on store buttons. |
-| **FR-05: Clipboard Copy Capability** | Scoped vanilla inline script utilizing `navigator.clipboard` with visual feedback toggle. |
-| **FR-06: Unaltered Root File Delivery** | `public/app-ads.txt` mapped 1:1 to `dist/app-ads.txt` verified by CI workflow step. |
-| **NFR-01: Mobile-First Usability** | Tailwind responsive breakpoint utilities (`sm:`, `md:`, `lg:`) with minimum 44px touch targets. |
-| **NFR-02: Rapid Loading Experience** | Astro SSG zero-JS output + `astro:assets` Sharp WebP image compression. |
-| **NFR-03: Visual Accessibility** | Semantic HTML tags (`<nav>`, `<main>`, `<article>`), high-contrast dark theme tokens, explicit `alt` text. |
-| **NFR-04: Social Sharing Previews** | OpenGraph & Twitter Card `<meta>` tags dynamically populated in `BaseLayout.astro`. |
-| **NFR-05: High Reliability** | Static hosting on GitHub Pages CDN with zero server runtime dependencies. |
-
----
-
-## 11. Testing & Verification Checklist
-
-1. **Build Validation:** Run `npm run check && npm run build` locally; ensure zero errors and valid generation of `dist/index.html` and `dist/app-ads.txt` (Verified: 12 files scanned, 0 errors, 0 warnings).
-2. **Type Safety Test:** Schema constraints in `src/content/config.ts` validate `genre`, `status`, `coverImage`, and `storeLinks` across all 7 catalog games.
-3. **MIME & Root Verification:** Run `curl -I https://dhineshmoorthy-gamedev.github.io/app-ads.txt` post-deploy to confirm `HTTP/2 200` and `Content-Type: text/plain`.
-4. **Lighthouse Audit:** Performance, Accessibility, Best Practices, and SEO scores target 95+ on mobile and desktop due to static zero-framework delivery.
-5. **Interactive Check:** Verify that clicking the copy button in `Footer.astro` triggers the `transitions-dev` character-diff morph into `✓ Copied!`, copies `olaidigitalstudios@gmail.com` to clipboard, and announces via ARIA live region.
+1. **Build Validation:** Run `npm run build` &mdash; confirms 0 TypeScript errors and clean compilation of 2 pages (`/index.html` and `/privacy/index.html`).
+2. **AdMob Verification:** `curl -I https://olaidigitalstudios.netlify.app/app-ads.txt` returns `HTTP 200` with `text/plain`.
+3. **Analytics Verification:** Verify active sessions appear in Google Analytics Realtime view (`G-QCEE9EZ1X0`).
+4. **Search Console Verification:** Sitemaps section confirms green "Success" status for `sitemap.xml`.
+5. **Tooltip Interaction:** Hovering store icons glides cleanly with zero fly-in, displays bottom-positioned tooltips without obscuring titles, and suppresses on mobile touch.
+6. **Payment Links:** Cashfree link opens UPI/Card checkout; PayPal link opens `paypal.me/olaidigitalstudios`.
