@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { game } = Astro.props;
-const { title, genre, status, coverImage, coverAlt, storeLinks } = game.data;
+const { title, tagline, genre, status, coverImage, coverAlt, storeLinks } = game.data;
 
 const isLive = status === 'Available Now';
 const singleGenre = genre.split('/')[0].trim();
@@ -27,7 +27,11 @@ const platformNames: Record<string, string> = {
 <article class="relative flex flex-col h-full rounded-2xl bg-gradient-to-b from-surface-elevated/40 via-surface to-surface border-t border-t-white/20 border-x border-x-white/10 border-b border-b-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_8px_24px_-8px_rgba(0,0,0,0.6)] overflow-hidden">
 
   <!-- 1. Pure, 100% Clean Key Art Frame (Zero Overlays / No Badges on Art) -->
-  <div class="relative aspect-video overflow-hidden bg-black/60 border-b border-white/[0.08]">
+  <div
+    class={`relative aspect-video overflow-hidden bg-black/60 border-b border-white/[0.08] ${
+      !isLive ? 'grayscale contrast-[1.08] opacity-80' : ''
+    }`}
+  >
     <!-- Ambient blurred background fill for non-16:9 images -->
     <Image
       src={coverImage}
@@ -74,10 +78,20 @@ const platformNames: Record<string, string> = {
       </span>
     </div>
 
-    <!-- Centered Game Title (Static, no hover color shift) -->
-    <h3 class="font-display font-bold text-xl sm:text-2xl text-white text-center leading-snug my-auto">
-      {title}
-    </h3>
+    <!-- Centered Game Title & Tagline Subtitle -->
+    <div class="my-auto flex flex-col items-center gap-1.5 text-center">
+      <h3 class="font-display font-bold text-xl sm:text-2xl text-white leading-snug">
+        {title}
+      </h3>
+      {tagline && (
+        <p
+          class="font-sans text-xs sm:text-[13px] text-stone-400 leading-relaxed line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]"
+          title={tagline}
+        >
+          {tagline}
+        </p>
+      )}
+    </div>
 
     <!-- 3. Centered Store Icon Launcher Dock -->
     <div class="mt-auto pt-2 flex justify-center">

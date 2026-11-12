@@ -146,9 +146,9 @@ Standardized CSS custom properties in `:root` and registered directly in Tailwin
 ### 3.2 Game Showcase Card (`GameCard.astro`)
 - **Structure:** Obsidian vertical card (`h-full flex flex-col rounded-2xl bg-gradient-to-b from-surface-elevated/40 via-surface to-surface border-t border-t-white/20 border-x border-x-white/10 border-b border-b-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_8px_24px_-8px_rgba(0,0,0,0.6)] overflow-hidden`).
 - **Card Anatomy:**
-  1. **Clean Key Art Frame (Top):** 16:9 aspect ratio (`aspect-video bg-black/60`). 100% clean art with zero overlays. Non-16:9 images feature an ambient blurred background clone so art is never clipped.
+  1. **Clean Key Art Frame (Top):** 16:9 aspect ratio (`aspect-video bg-black/60`). 100% clean art with zero overlays. Non-16:9 images feature an ambient blurred background clone so art is never clipped. For in-development titles, the art frame renders in monochromatic classic lock (`grayscale contrast-[1.08] opacity-80`), providing immediate visual contrast against live releases.
   2. **Metadata Row:** Single concise genre in Champagne Gold uppercase tracking positioned opposite a release status pill (`● Available Now` in emerald, `● In Development` in amber).
-  3. **Centered Game Title:** High-contrast, bold display title in `Manrope` centered within the card body.
+  3. **Centered Title & Tagline Subtitle:** High-contrast bold display title in `Manrope` paired with a 2-line muted tagline subtitle in `Plus Jakarta Sans` (`text-stone-400 text-xs sm:text-[13px] leading-relaxed line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]`), maintaining geometric baseline uniformity across cards.
   4. **Centered Store Launcher Dock (Bottom):**
      - Centered row of 44×44px tactile icon tiles (`w-11 h-11 rounded-xl`).
      - **Live Games:** Active clickable tiles with hover lift (`-translate-y-0.5`), gold illumination (`text-accent-gold`, `border-accent-gold/40`, `bg-accent-gold/10`).

@@ -29,7 +29,7 @@ const location = 'Chennai, Tamil Nadu, India';
     <div class="flex flex-col items-center text-center">
       <h1
         class="hero-title font-brand font-normal text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-stone-100 uppercase leading-[0.95] select-none"
-        style="letter-spacing: 0.12em; margin-right: -0.12em; text-shadow: 0 4px 25px rgba(255, 255, 255, 0.08);"
+        style="letter-spacing: 0.12em; margin-right: -0.12em;"
       >
         OLAI
       </h1>
@@ -40,8 +40,13 @@ const location = 'Chennai, Tamil Nadu, India';
         DIGITAL STUDIOS
       </p>
 
+      <!-- Studio Thesis Pitch -->
+      <p class="hero-thesis font-sans text-sm sm:text-base md:text-lg text-stone-300 tracking-wide mt-5 sm:mt-6 max-w-lg leading-relaxed select-none">
+        Independent game studio crafting experiences
+      </p>
+
       <!-- Studio Location Badge -->
-      <div class="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-sans font-medium text-stone-300 bg-white/[0.04] border border-white/10 backdrop-blur-sm mt-8 sm:mt-10">
+      <div class="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-sans font-medium text-stone-300 bg-white/[0.04] border border-white/10 backdrop-blur-sm mt-6 sm:mt-8">
         <span class="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" aria-hidden="true"></span>
         <span class="text-accent-gold font-medium">Based in {location}</span>
       </div>
@@ -85,14 +90,12 @@ const location = 'Chennai, Tamil Nadu, India';
 <style>
   @keyframes ambientBreathe {
     0%, 100% {
-      transform: scale(0.92);
+      transform: scale(0.94);
       opacity: 0.65;
-      filter: blur(60px);
     }
     50% {
-      transform: scale(1.08);
-      opacity: 1;
-      filter: blur(80px);
+      transform: scale(1.06);
+      opacity: 0.95;
     }
   }
 
@@ -114,12 +117,10 @@ const location = 'Chennai, Tamil Nadu, India';
     0% {
       opacity: 0;
       transform: translateY(14px);
-      filter: blur(5px);
     }
     100% {
       opacity: 1;
       transform: translateY(0);
-      filter: blur(0);
     }
   }
 
@@ -142,8 +143,12 @@ const location = 'Chennai, Tamil Nadu, India';
     animation: heroReveal 500ms var(--ease-smooth-out) 140ms both;
   }
 
+  .hero-thesis {
+    animation: heroFadeIn 450ms var(--ease-smooth-out) 220ms both;
+  }
+
   .hero-badge {
-    animation: heroFadeIn 450ms var(--ease-smooth-out) 280ms both;
+    animation: heroFadeIn 450ms var(--ease-smooth-out) 320ms both;
   }
 
   .hero-scroll {
@@ -153,6 +158,7 @@ const location = 'Chennai, Tamil Nadu, India';
   @media (prefers-reduced-motion: reduce) {
     .hero-title,
     .hero-subtitle,
+    .hero-thesis,
     .hero-badge,
     .hero-scroll,
     .hero-ambient-glow {
@@ -163,7 +169,6 @@ const location = 'Chennai, Tamil Nadu, India';
     }
     .hero-ambient-glow {
       opacity: 0.8 !important;
-      filter: blur(70px) !important;
     }
   }
 </style>

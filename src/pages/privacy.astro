@@ -1,17 +1,17 @@
 ---
-// privacy.astro — Privacy policy compliant with Google Play Store & Google AdMob requirements
+// privacy.astro — Comprehensive Privacy Policy compliant with Google Play Store, AdMob, GA4, & Global Regulations
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const lastUpdated = 'November 2, 2026';
+const lastUpdated = 'November 12, 2026';
 const contactEmail = 'olaidigitalstudios@gmail.com';
 const currentYear = new Date().getFullYear();
 ---
 
 <BaseLayout
   title="Privacy Policy | OLAI Digital Studios"
-  description="Privacy policy and advertising data practices for Olai Digital Studios and its mobile applications."
+  description="Transparent data privacy practices, Google Play Data Safety disclosures, website analytics, and advertising compliance for Olai Digital Studios."
 >
-  <main class="min-h-screen pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+  <main class="min-h-screen pt-12 pb-24 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
 
       <!-- Navigation Back to Home -->
@@ -29,143 +29,327 @@ const currentYear = new Date().getFullYear();
       </div>
 
       <!-- Header Block -->
-      <header class="mb-12 border-b border-white/10 pb-8">
+      <header class="mb-10 border-b border-white/10 pb-8">
         <h1 class="font-brand font-normal text-4xl sm:text-5xl text-white tracking-wide uppercase leading-tight mb-4">
           Privacy Policy
         </h1>
         <p class="text-xs sm:text-sm font-sans text-stone-400">
-          Last Updated: <span class="text-accent-gold">{lastUpdated}</span> • Olai Digital Studios (Chennai, India)
+          Last Updated: <span class="text-accent-gold font-medium">{lastUpdated}</span> • Olai Digital Studios (Chennai, India)
         </p>
       </header>
 
-      <!-- Content Sections -->
-      <article class="space-y-10 text-stone-300 font-sans text-sm sm:text-base leading-relaxed">
+      <!-- Privacy At A Glance (Executive Summary Grid) -->
+      <section aria-labelledby="summary-heading" class="mb-12">
+        <h2 id="summary-heading" class="sr-only">Privacy at a Glance</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-surface-elevated/70 border border-white/10">
+            <div class="flex items-center gap-2 mb-1.5 text-accent-gold text-sm font-semibold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Zero Account Obligation</span>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              We never require accounts, logins, emails, or passwords to play any of our mobile or web titles.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-elevated/70 border border-white/10">
+            <div class="flex items-center gap-2 mb-1.5 text-accent-gold text-sm font-semibold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span>No Personal Data Sold</span>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              We do not harvest, rent, broker, or sell personal identifiers or user profiles to any third parties.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-elevated/70 border border-white/10">
+            <div class="flex items-center gap-2 mb-1.5 text-accent-gold text-sm font-semibold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              </svg>
+              <span>Local Sandbox Storage</span>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              Game saves, puzzle progress, and custom settings remain 100% on your local device storage.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-elevated/70 border border-white/10">
+            <div class="flex items-center gap-2 mb-1.5 text-accent-gold text-sm font-semibold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+              <span>Zero Payment Data Stored</span>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              Voluntary contributions are processed entirely on PCI-DSS certified gateways (Cashfree & PayPal).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Table of Contents Quick Links -->
+      <nav aria-label="Table of contents" class="mb-12 p-4 rounded-xl bg-surface border border-white/5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-accent-gold mb-2.5">
+          Policy Sections
+        </p>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-y-1.5 gap-x-4 text-xs sm:text-sm text-stone-300">
+          <li><a href="#overview" class="hover:text-accent-gold transition-colors">1. Overview &amp; Scope</a></li>
+          <li><a href="#no-collection" class="hover:text-accent-gold transition-colors">2. Information We Do Not Collect</a></li>
+          <li><a href="#mobile-admob" class="hover:text-accent-gold transition-colors">3. Mobile Advertising (Google AdMob)</a></li>
+          <li><a href="#website-analytics" class="hover:text-accent-gold transition-colors">4. Website Analytics (Google Analytics)</a></li>
+          <li><a href="#payment-gateways" class="hover:text-accent-gold transition-colors">5. Voluntary Support &amp; Payments</a></li>
+          <li><a href="#data-safety" class="hover:text-accent-gold transition-colors">6. Google Play Data Safety Summary</a></li>
+          <li><a href="#player-rights" class="hover:text-accent-gold transition-colors">7. Managing Preferences &amp; Rights</a></li>
+          <li><a href="#children" class="hover:text-accent-gold transition-colors">8. Children&rsquo;s Privacy (COPPA)</a></li>
+          <li><a href="#updates-contact" class="hover:text-accent-gold transition-colors">9. Updates &amp; Contact Information</a></li>
+        </ul>
+      </nav>
+
+      <!-- Detailed Policy Articles -->
+      <article class="space-y-12 text-stone-300 font-sans text-sm sm:text-base leading-relaxed">
 
         <!-- 1. Overview -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            1. Overview
+        <section id="overview" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            1. Overview &amp; Scope
           </h2>
           <p>
-            OLAI Digital Studios (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) is an independent game development studio based in Chennai, Tamil Nadu, India. We are committed to player privacy and transparent data stewardship.
+            OLAI Digital Studios (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) is an independent game development studio based in Chennai, Tamil Nadu, India. We are dedicated to creating thoughtful, tactile, player-first gaming experiences with total respect for user privacy.
           </p>
           <p>
-            This Privacy Policy explains how data is handled across our website (<code class="text-xs px-1.5 py-0.5 rounded bg-surface-elevated text-stone-300 border border-white/10">olaidigitalstudios.netlify.app</code>) and our published mobile games on Google Play.
+            This Privacy Policy applies to our official portfolio website (<code class="text-xs px-2 py-0.5 rounded bg-surface-elevated text-stone-200 border border-white/10">https://olaidigitalstudios.netlify.app/</code>) and our published titles across platforms, including the Google Play Store, Microsoft Store, itch.io, and Web demos.
           </p>
         </section>
 
-        <!-- 2. Information Collection -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
+        <!-- 2. Information We Do Not Collect -->
+        <section id="no-collection" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
             2. Information We Do Not Collect
           </h2>
           <p>
-            We do not require account registration, login credentials, or personally identifiable information (such as your real name, home address, personal phone number, or payment card details) to play our mobile titles.
+            Our games and website are architected from the ground up to operate without collecting personally identifiable information (PII). Specifically:
           </p>
-          <p>
-            Gameplay progression, puzzle configurations, and local settings are stored locally on your device using standard sandbox storage.
-          </p>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300">
+            <li><strong>No Account Creation:</strong> We do not ask for real names, email addresses, phone numbers, or passwords.</li>
+            <li><strong>No Social Media Logins:</strong> We do not integrate third-party login SDKs (e.g., Facebook, Twitter) that track your identity.</li>
+            <li><strong>No Location Tracking:</strong> We do not request, access, or track precise GPS location data.</li>
+            <li><strong>Local Progression:</strong> All game saves, puzzle states, scores, and preferences are stored exclusively on your device's local application sandbox.</li>
+          </ul>
         </section>
 
-        <!-- 3. Third-Party Services & AdMob -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            3. Advertising &amp; Third-Party Services
+        <!-- 3. Mobile Advertising & AdMob -->
+        <section id="mobile-admob" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            3. Mobile Advertising (Google AdMob)
           </h2>
           <p>
-            To provide our mobile games free of charge and sustain independent development, our games integrate <strong>Google AdMob</strong>, an advertising service provided by Google LLC.
+            To provide our mobile games free of charge and sustainably fund future game development, our games integrate <strong>Google AdMob</strong>, an advertising service provided by Google LLC.
           </p>
           <p>
-            Google AdMob may collect and process pseudonymous device-level identifiers to serve advertisements. Such information may include:
+            Google AdMob may collect and process pseudonymous device-level identifiers to serve relevant advertisements, prevent ad fraud, and report engagement metrics. This data may include:
           </p>
-          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-400">
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300">
             <li>Google Advertising ID (GAID / AAID)</li>
-            <li>Approximate device location / IP address</li>
-            <li>Device model, operating system version, and system language</li>
-            <li>Diagnostic, crash data, and ad interaction metrics</li>
+            <li>Coarse / approximate location inferred from IP address</li>
+            <li>Device make, model, screen resolution, and operating system version</li>
+            <li>Diagnostic, crash logs, and ad interaction statistics</li>
           </ul>
           <p class="pt-2">
-            For further details on how Google processes and safeguards advertising data, please review:
+            For comprehensive information on how Google manages and protects advertising data, please consult Google's official privacy documentation:
           </p>
-          <div class="flex flex-col sm:flex-row gap-3 pt-1">
+          <div class="flex flex-wrap gap-4 pt-1">
             <a
               href="https://policies.google.com/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 text-xs text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
+              class="inline-flex items-center gap-1.5 text-xs sm:text-sm text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
             >
-              Google Privacy &amp; Terms &nearr;
+              Google Privacy Policy &nearr;
             </a>
             <a
               href="https://support.google.com/admob/answer/6128543"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 text-xs text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
+              class="inline-flex items-center gap-1.5 text-xs sm:text-sm text-accent-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-1"
             >
-              How AdMob Uses Information &nearr;
+              How Google Uses Information From Apps &nearr;
             </a>
           </div>
         </section>
 
-        <!-- 4. Managing Ad Preferences -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            4. Managing Ad Preferences &amp; Opting Out
+        <!-- 4. Website Analytics (GA4) -->
+        <section id="website-analytics" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            4. Website Analytics (Google Analytics 4)
           </h2>
           <p>
-            Players have full control over personalized advertising directly through Android device settings. You can reset your advertising ID or opt out of personalized ads at any time:
+            When you visit our website, we use <strong>Google Analytics 4 (GA4)</strong> with measurement ID <code class="text-xs px-2 py-0.5 rounded bg-surface-elevated text-stone-200 border border-white/10">G-QCEE9EZ1X0</code> to monitor aggregate site traffic, discoverability, and visitor interactions.
           </p>
-          <div class="p-4 rounded-xl bg-surface-elevated border border-white/10 text-xs sm:text-sm text-stone-300 font-mono">
-            Settings &rarr; Google &rarr; Ads &rarr; Reset or Delete advertising ID
+          <p>
+            GA4 uses standard browser cookies and pseudonymous identifiers to collect aggregated, non-personally identifiable technical telemetry, including:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300">
+            <li>Pages viewed and navigation paths through the portfolio</li>
+            <li>Session duration, bounce rates, and scroll depth</li>
+            <li>General geographic region (country and city-level, with IP addresses automatically masked)</li>
+            <li>Device category, operating system, and browser version</li>
+          </ul>
+          <p class="pt-2">
+            You can prevent Google Analytics from tracking your visits by disabling cookies in your browser settings or by installing the official <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-accent-gold hover:underline">Google Analytics Opt-out Browser Add-on</a>.
+          </p>
+        </section>
+
+        <!-- 5. Voluntary Support & Payments -->
+        <section id="payment-gateways" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            5. Voluntary Support &amp; Payment Gateways
+          </h2>
+          <p>
+            Our website offers voluntary patron options under &ldquo;Support Our Craft&rdquo; for visitors who wish to support independent game development:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300">
+            <li><strong>Domestic (India):</strong> Hosted forms provided by <strong>Cashfree Payments India Pvt. Ltd.</strong> supporting UPI (Google Pay, PhonePe, Paytm, BHIM), RuPay, and domestic net banking.</li>
+            <li><strong>International:</strong> Direct transfers via <strong>PayPal (PayPal Inc.)</strong> supporting global cards and balances.</li>
+          </ul>
+          <div class="p-4 rounded-xl bg-surface-elevated border border-white/10 mt-2">
+            <p class="font-semibold text-white mb-1">
+              Zero Financial Data Retention Guarantee:
+            </p>
+            <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              All payment transactions are conducted entirely on the secure, PCI-DSS Level 1 certified checkout infrastructure of Cashfree and PayPal. <strong>OLAI Digital Studios never collects, processes, views, or stores your credit card numbers, CVVs, banking credentials, or UPI PINs.</strong>
+            </p>
           </div>
         </section>
 
-        <!-- 5. Children's Privacy -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            5. Children&rsquo;s Privacy (COPPA Compliance)
+        <!-- 6. Google Play Data Safety Summary -->
+        <section id="data-safety" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            6. Google Play Data Safety Summary
           </h2>
           <p>
-            Our games are created for general audiences and do not knowingly collect personal data from children under 13 (or under 16 where applicable by local law). If you are a parent or guardian and believe that personal data has inadvertently been collected, please contact us immediately so we can promptly resolve it.
+            In accordance with Google Play Developer Policy requirements, the table below summarizes the exact data practices implemented across our published Android applications:
+          </p>
+          <div class="overflow-x-auto mt-2">
+            <table class="w-full text-left text-xs sm:text-sm border border-white/10 rounded-xl overflow-hidden">
+              <thead class="bg-surface-elevated text-accent-gold uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th class="p-3 border-b border-white/10">Data Category</th>
+                  <th class="p-3 border-b border-white/10">Processed By</th>
+                  <th class="p-3 border-b border-white/10">Purpose</th>
+                  <th class="p-3 border-b border-white/10">Encrypted in Transit</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5 text-stone-300">
+                <tr>
+                  <td class="p-3 font-medium text-white">Device or Other IDs (GAID)</td>
+                  <td class="p-3">Google AdMob SDK</td>
+                  <td class="p-3">Advertising &amp; Fraud Prevention</td>
+                  <td class="p-3 text-emerald-400">Yes (HTTPS/TLS)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium text-white">Approximate Location</td>
+                  <td class="p-3">Google AdMob SDK</td>
+                  <td class="p-3">Ad Delivery &amp; Analytics</td>
+                  <td class="p-3 text-emerald-400">Yes (HTTPS/TLS)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium text-white">Crash Logs &amp; Diagnostics</td>
+                  <td class="p-3">Google AdMob SDK</td>
+                  <td class="p-3">App Performance &amp; Stability</td>
+                  <td class="p-3 text-emerald-400">Yes (HTTPS/TLS)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium text-white">User Accounts / Personal Data</td>
+                  <td class="p-3">None</td>
+                  <td class="p-3">Not Collected</td>
+                  <td class="p-3 text-stone-500">N/A</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 7. Managing Preferences & Player Rights -->
+        <section id="player-rights" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            7. Managing Preferences &amp; Player Rights
+          </h2>
+          <p>
+            Whether you are subject to the European General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA/CPRA), or other international privacy standards, we respect your rights:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300">
+            <li><strong>Reset or Delete Your Advertising ID:</strong> You have full control over personalized ads directly in your Android system settings:</li>
+          </ul>
+          <div class="p-3.5 rounded-xl bg-surface-elevated border border-white/10 text-xs sm:text-sm text-stone-200 font-mono">
+            Settings &rarr; Google &rarr; Ads &rarr; Reset advertising ID (or Delete advertising ID)
+          </div>
+          <ul class="list-disc list-inside space-y-1.5 pl-2 text-stone-300 pt-1">
+            <li><strong>Data Erasure:</strong> Because game progression is stored locally, uninstalling the application completely erases all local save files from your device.</li>
+            <li><strong>Inquiries &amp; Requests:</strong> To request clarification or submit an inquiry regarding our data practices, contact us anytime at <a href={`mailto:${contactEmail}`} class="text-accent-gold hover:underline">{contactEmail}</a>.</li>
+          </ul>
+        </section>
+
+        <!-- 8. Children's Privacy -->
+        <section id="children" class="space-y-3 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            8. Children&rsquo;s Privacy (COPPA Compliance)
+          </h2>
+          <p>
+            Our games and website are designed for general audiences and do not knowingly target or collect personal information from children under the age of 13 (or under 16 where specified by regional jurisdictions).
+          </p>
+          <p>
+            If you are a parent or legal guardian and believe that personal information has inadvertently been provided through our services, please contact us immediately so we can promptly investigate and delete any corresponding records.
           </p>
         </section>
 
-        <!-- 6. Policy Updates -->
-        <section class="space-y-3">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            6. Policy Updates
+        <!-- 9. Policy Updates & Contact -->
+        <section id="updates-contact" class="space-y-4 pt-6 border-t border-white/10 scroll-mt-8">
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            9. Policy Updates &amp; Contact Information
           </h2>
           <p>
-            We may occasionally update this Privacy Policy to reflect app updates, regulatory revisions, or service adjustments. Any updates will be published directly to this URL with an updated revision date.
+            We may occasionally update this Privacy Policy to reflect app releases, SDK upgrades, or legal requirements. Any modifications will be posted directly to this URL with a revised &ldquo;Last Updated&rdquo; timestamp.
           </p>
-        </section>
-
-        <!-- 7. Contact Us -->
-        <section class="space-y-3 pt-4 border-t border-white/10">
-          <h2 class="font-display font-bold text-xl text-white tracking-tight">
-            7. Contact Us
-          </h2>
-          <p>
-            If you have questions, feedback, or inquiries regarding this Privacy Policy, please reach out to us at:
-          </p>
-          <p>
+          <div class="p-5 rounded-xl bg-surface-elevated/70 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-accent-gold mb-1">
+                Direct Privacy Contact
+              </p>
+              <p class="text-sm sm:text-base font-medium text-white">
+                Olai Digital Studios
+              </p>
+              <p class="text-xs text-stone-400">
+                Chennai, Tamil Nadu, India
+              </p>
+            </div>
             <a
               href={`mailto:${contactEmail}`}
-              class="inline-block text-accent-gold font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-sm font-sans font-medium text-stone-200 hover:text-accent-gold hover:border-accent-gold/40 hover:bg-accent-gold/10 transition-colors"
             >
-              {contactEmail}
+              <svg class="w-4 h-4 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>{contactEmail}</span>
             </a>
-          </p>
+          </div>
         </section>
 
       </article>
 
-      <!-- Quiet Legal Bottom Bar (No duplicate home footer) -->
-      <footer class="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-sans">
+      <!-- Upgraded Sub-Footer Legal Bar -->
+      <footer class="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-stone-400 font-sans">
         <p>&copy; {currentYear} Olai Digital Studios. All rights reserved.</p>
         <a
           href="/"
-          class="text-stone-400 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
+          class="text-stone-300 hover:text-accent-gold transition-colors duration-quick ease-smooth-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded py-0.5 px-1"
         >
           &larr; Return to Studio Home
         </a>

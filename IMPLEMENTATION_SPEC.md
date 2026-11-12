@@ -166,7 +166,7 @@ export default {
 │   ├── components/
 │   │   ├── Hero.astro              # Full-viewport screen with Bodoni Moda wordmark, location badge & scroll prompt
 │   │   ├── GamesSection.astro      # Section container querying Astro content collection
-│   │   ├── GameCard.astro          # Unobstructed 16:9 art, single genre in gold, centered title & 4-button launcher dock
+│   │   ├── GameCard.astro          # Unobstructed 16:9 art, single genre in gold, centered title, tagline subtitle & launcher dock
 │   │   ├── StoreIcon.astro         # Clean Simple Icons SVG platform marks (stripped of <title> tags)
 │   │   ├── Tooltip.astro           # Artisanal unscaled floating tooltip engine with is-gliding transitions
 │   │   └── Footer.astro            # Monetization dock (Cashfree & PayPal), Text Morph email copy, copyright
