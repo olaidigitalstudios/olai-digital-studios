@@ -1,0 +1,31 @@
+{
+  "title": "Fragma",
+  "tagline": "A quiet, tactile 3D spatial puzzle. Rotate fragmented ceramic sculptures back into stillness.",
+  "genre": "Puzzle / 3D Spatial / Cozy Tactile",
+  "status": "In Development",
+  "coverImage": "../../assets/images/games/fragma.jpg",
+  "coverAlt": "Fragma key art showing a minimalist dissected ceramic vase with gold kintsugi interior on morning mist linen",
+  "featuredOrder": 8,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Google Play",
+      "primary": false
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Microsoft Store",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "itch.io",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "primary": false
+    }
+  ]
+}

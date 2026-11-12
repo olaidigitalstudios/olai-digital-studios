@@ -136,7 +136,7 @@ The Olai Digital Studios website is architected as an ultra-fast, zero-runtime-o
 - **SEO & Canonical URLs:** Dynamic `<link rel="canonical">` and OpenGraph metadata generated against `https://olaidigitalstudios.netlify.app`.
 - **Structured Data (Schema.org):** Comprehensive `@graph` containing:
   - `Organization` metadata (studio identity, Chennai location, support email).
-  - `VideoGame` schema for all 7 catalog games (title, genre, platform, operating system, and offer availability).
+  - `VideoGame` schema for all 8 catalog games (title, genre, platform, operating system, and offer availability).
 - **Global Portal Mount:** Instantiates `<Tooltip />` immediately before `</body>` to prevent clipping by overflow-hidden containers.
 
 ### 4.2 Custom Tooltip Engine (`src/components/Tooltip.astro`)

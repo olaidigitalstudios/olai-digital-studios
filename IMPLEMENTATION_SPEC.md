@@ -176,6 +176,7 @@ export default {
 │   │       ├── checkless.json
 │   │       ├── countagram.json
 │   │       ├── flapcrypt.json
+│   │       ├── fragma.json
 │   │       ├── grid-leap.json
 │   │       ├── node-attack.json
 │   │       ├── rotatle.json
@@ -272,7 +273,7 @@ export default {
                            │
 ┌──────────────────────────▼─────────────────────────────┐
 │ Phase 3: Content Collection & Schema Validation        │ [COMPLETED]
-│ - src/content/config.ts with Zod, 7 game data files    │
+│ - src/content/config.ts with Zod, 8 game data files    │
 └──────────────────────────┬─────────────────────────────┘
                            │
 ┌──────────────────────────▼─────────────────────────────┐
@@ -321,4 +322,4 @@ export default {
 - [x] **Technical Specification** finalized and approved ([TECH_SPEC.md](file:///E:/olai-digital-studios/TECH_SPEC.md) v1.4.0).
 - [x] **Design Specification & Tokens** finalized and approved ([DESIGN_SPEC.md](file:///E:/olai-digital-studios/DESIGN_SPEC.md) v1.4.0).
 - [x] **Implementation Blueprint** fully synchronized and verified ([IMPLEMENTATION_SPEC.md](file:///E:/olai-digital-studios/IMPLEMENTATION_SPEC.md) v1.4.0).
-- [x] **Production Verification:** Zero Astro/TypeScript check errors, zero build errors, all 7 catalog games rendering cleanly, AdMob crawler file live at `/app-ads.txt`, monetization forms operational.
+- [x] **Production Verification:** Zero Astro/TypeScript check errors, zero build errors, all 8 catalog games rendering cleanly, AdMob crawler file live at `/app-ads.txt`, monetization forms operational.
