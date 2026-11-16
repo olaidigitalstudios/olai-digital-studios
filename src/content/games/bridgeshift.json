@@ -1,0 +1,31 @@
+{
+  "title": "BridgeShift",
+  "tagline": "Connect the bridges, shift the letters, and decode each hidden word.",
+  "genre": "Puzzle",
+  "status": "In Development",
+  "coverImage": "../../assets/images/games/bridgeshift.jpg",
+  "coverAlt": "BridgeShift key art showing glowing green cipher nodes and golden interconnecting puzzle bridges",
+  "featuredOrder": 9,
+  "storeLinks": [
+    {
+      "platform": "google-play",
+      "label": "Google Play",
+      "primary": false
+    },
+    {
+      "platform": "microsoft-store",
+      "label": "Microsoft Store",
+      "primary": false
+    },
+    {
+      "platform": "itch",
+      "label": "itch.io",
+      "primary": false
+    },
+    {
+      "platform": "web",
+      "label": "Web",
+      "primary": false
+    }
+  ]
+}
